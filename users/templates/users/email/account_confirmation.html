@@ -1,0 +1,14 @@
+{% extends "users/email/base.html" %}
+{% load i18n %}
+    
+{% block content %}
+    <h1>{% trans "Confirm your Account" %}</h1>
+    
+    <p>{% trans "Your username is" %} <b>{{ user.username }}</b>.</p>
+    <p>{% blocktrans %}After you have activated your account and set your password you can log in the system.{% endblocktrans %}</p>
+        
+    <a href="{{ account_confirm_url }}">{% trans "Activate your account and set your password" %}</a>
+    
+{% endblock %}
+
+

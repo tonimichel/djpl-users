@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"> 
+<head> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>{% block title %}{% endblock %}</title>
+    <style>
+        body {padding: 44px; font-family: helvetica, arial, sans-serif; color: #666; font-size: 17px;}
+        h1 {font-weight:normal}
+        #content {
+            width:900px; margin:auto;
+            padding: 22px;
+            border: 3px solid #ccc;
+            line-height: 1.7em;
+        }
+        .box {padding:22px; border: 2px solid #ddd; background: #eee; margin: 12px 0px 12px 0px;}
+        hr {border: 1px solid #ccc;}
+        table tr {margin:0px; padding: 0px;}
+        table td {border: 1px solid #ccc; padding: 12px; margin: 0; line-height:inherit}
+        #powerlink {color: #666; font-size: 24px; display: block; margin: auto; margin-top: 44px; margin-bottom:44px; width: 300px; border: 0px solid red }
+    </style>
+</head>
+<body>
+
+    <div id="content">
+        {% block content %} {% endblock %}
+    </div>
+
+</body>
+</html>

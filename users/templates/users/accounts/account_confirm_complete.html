@@ -1,0 +1,12 @@
+{% extends "users/accounts/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Account successfuly confirmed" %}{% endblock %}
+{% block bodyclass %}account-process{% endblock %}
+{% block content %}
+
+        <h1>{% trans 'Your account has been successfuly confirmed' %}</h1>
+        <br/>
+        <div class="buttons mega"><a href="{{ login_url }}" >{% trans 'Log in with your new account' %}</a></div>
+
+{% endblock %}

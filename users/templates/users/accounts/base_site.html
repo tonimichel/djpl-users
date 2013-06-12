@@ -1,0 +1,24 @@
+{% load i18n %}
+<!DOCTYPE html >
+<html>
+	<head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>{% block title %} {% endblock %}</title>
+        
+        {% include "media_includes.html" %}
+	</head>
+	<body class="users {% block bodyclass %} {% endblock %}">
+	
+	    <div id="container">
+            <div id="header">
+                <div id="branding">
+                    {% block branding%}<a id="logo"></a>{% endblock %}
+                </div>
+            </div>
+            <div id="content">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

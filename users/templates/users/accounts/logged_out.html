@@ -1,0 +1,12 @@
+{% extends "users/accounts/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Login" %}{% endblock %}
+
+{% block content %}
+<div class="note">
+    <p>{% trans "Thanks for spending some quality time with the application today." %}</p>
+    <p><a href="../">{% trans 'Log in again' %}</a></p>
+</div>
+
+{% endblock %}
