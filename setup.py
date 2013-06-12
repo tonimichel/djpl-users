@@ -9,7 +9,7 @@ def read(fname):
         return ''
 
 setup(
-    name='django-users',
+    name='djpl-users',
     version='0.1',
     description='User functionality beyond admin users',
     long_description=read('README.rst'),
@@ -17,7 +17,7 @@ setup(
     keywords='django, FOSD, FOP, feature-oriented-programming, product-line, users, signup, confirmation email',
     author='Toni Michel',
     author_email='toni@schnapptack.de',
-    url="https://github.com/toni/django-users",
+    url="https://github.com/toni/djpl-users",
     packages=find_packages(),
     package_dir={'users': 'users'},
     package_data={'users': []},
