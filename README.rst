@@ -71,6 +71,8 @@ Just extend AbstractUser and specify your AppConfig.
 urlpatterns
 -----------------
 
+.. code-block:: python
+
     from users import authurls
     from foo.models import FooUser
     
