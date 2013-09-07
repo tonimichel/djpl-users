@@ -5,22 +5,20 @@ A django-productline feature to enable user functionality for non-admin multiuse
 Builds upon django.auth and provides signup, confirmation email, and password reset functionality.
 
 
+This is a django-productline feature: https://django-productline.readthedocs.org/en/latest/
+
 
 Installation
 ====================================
 
-1) clone this repo e.g.: ``git clone https://github.com/tonimichel/django-users.git`` and cd into it.
-
-
-2) Install the python package::
-
-    python setup.py install
+pip install -e git+https://github.com/tonimichel/djpl-users.git#egg=djpl-users
+    
 
 
 Usage
 ===================================
 
-*users* provides an abstract model and some urlpatterns which allow you to
+*users* provides an abstract model and some urlpatterns which allows you to
 create custom user models for your app featuring:
 
 * confirmation emails when a user is created
