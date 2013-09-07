@@ -57,7 +57,7 @@ Just extend AbstractUser and specify your AppConfig.
             APP_LABEL = 'myappname' # used for prefixing the urlnames 
             URL_PREFIX = 'myurlprefix' # all users urls are prefixed with that string
             FROM_EMAIL = 'system@schnapptack.de' # your from email
-            ACCOUNT_CONFIRM_EMAIL_SUBJECT = 'your new FooApp account' # the subject of the email 
+            CONFIRM_EMAIL_SUBJECT = 'your new FooApp account' # the subject of the email 
             CONFIRM_LINK_TARGET_DOMAIN = 'http://example.com' # the domain used for the activation link in the activation email
             LOGIN_URL = 'login/' # the login url relative to the URL_PREFIX
             LOGIN_REDIRECT_URL = '/' 
