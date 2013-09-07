@@ -13,7 +13,10 @@ class UserAdmin(admin.ModelAdmin):
         self.form = get_user_form(self.model)
     
     fieldsets=[
-         ('main', {
+        (_('User data'), {
+            'fields': ('first_name', 'last_name')
+        }),
+        (_('Credentials'), {
             'fields': ('username', 'email',  'is_active')
         }),
     ]
