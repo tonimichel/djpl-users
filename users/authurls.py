@@ -11,6 +11,10 @@ def _logout(request, **kws):
     return logout(request, **kws)
 
 def get_patterns(user_model):
+
+    if not user_model.hasattr('AppConfig'):
+        raise Exception('Your user model %s should define an inner class AppConfig' % user_model)
+
     conf = user_model.AppConfig
 
     # ensure ending slashes if URL_PREFIX is provided
