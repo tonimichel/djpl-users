@@ -59,7 +59,7 @@ class AbstractUser(User, models.Model):
             from_email = conf.FROM_EMAIL,
             to = recipients,
             bcc = bcc,
-            subject = conf.ACCOUNT_CONFIRM_EMAIL_TITLE,
+            subject = conf.ACCOUNT_CONFIRM_EMAIL_SUBJECT,
             template = 'users/email/account_confirmation.html',
             context = {
                 'token': token,
