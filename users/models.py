@@ -59,7 +59,7 @@ class AbstractUser(User, models.Model):
             from_email = conf.FROM_EMAIL,
             to = recipients,
             bcc = bcc,
-            subject = conf.ACCOUNT_CONFIRM_EMAIL_SUBJECT,
+            subject = conf.CONFIRM_EMAIL_SUBJECT,
             template = 'users/email/account_confirmation.html',
             context = {
                 'token': token,
@@ -88,7 +88,7 @@ class UserAppConfig(object):
     URL_PREFIX = None
     USER_MODEL = None 
     FROM_EMAIL = None 
-    ACCOUNT_CONFIRM_EMAIL_TITLE = None
+    CONFIRM_EMAIL_SUBJECT = None
     CONFIRM_LINK_TARGET_DOMAIN = None
     LOGIN_URL = None
     LOGIN_REDIRECT_URL = None
