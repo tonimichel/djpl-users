@@ -18,8 +18,8 @@ pip install -e git+https://github.com/tonimichel/djpl-users.git#egg=djpl-users
 Usage
 ===================================
 
-*users* provides an abstract model and some urlpatterns which allows you to
-create custom user models for your app featuring:
+*users* provides an abstract model and urlpatterns to enable custom user models
+featuring:
 
 * confirmation emails when a user is created
 * password reset process when a user forgot his password
@@ -29,17 +29,18 @@ The users feature is designed for scenarios where you have a user base and dont 
 to set or reset each user's password manually. You might use it in admin scenarios
 or non-admin scenarios.
 
-The usage is quite easy and can be accomplished in 3 steps:
+The usage can be accomplished in 3 steps:
 
-1) Create your own user model extending AbstractUser and add the inner class AppConfig
-2) Add the urlpatterns by using users.authurls.get_patterns(FooUser)
-3) Set the necessary email properties in your settings.py
+1) Create your own user model extending AbstractUser
+2) Register your custom user model *users.register(modelclass, config)*
+3) Add the urlpatterns (usermodel.get_urlpatterns)
 
-As this is a django-productline feature, make sure you have users in your product.equation
+As users required emails, be sure to introduce the necessary email properties in your settings.
 
 
 
-models.py
+
+Your models
 ----------------
 
 Just extend AbstractUser and specify your AppConfig.
@@ -47,36 +48,36 @@ Just extend AbstractUser and specify your AppConfig.
 .. code-block:: python
 
     from django.db import models
-    from users.models import AbstractUser, UserAppConfig
+    from users.models import AbstractUser
+    import users
     
     class FooUser(AbstractUser):
         
         someadditionalfield = models.CharField(max_length=255)
         
-        class AppConfig(UserAppConfig):
-            APP_LABEL = 'myappname' # used for prefixing the urlnames 
-            URL_PREFIX = 'myurlprefix' # all users urls are prefixed with that string
-            FROM_EMAIL = 'system@schnapptack.de' # your from email
-            CONFIRM_EMAIL_SUBJECT = 'your new FooApp account' # the subject of the email 
-            CONFIRM_LINK_TARGET_DOMAIN = 'http://example.com' # the domain used for the activation link in the activation email
-            LOGIN_URL = 'login/' # the login url relative to the URL_PREFIX
-            LOGIN_REDIRECT_URL = '/' 
-            LOGOUT_REDIRECT_URL = '/ciao/'
-            USE_USER_EMAIL = False, # indicate whether to use the email of this user or not; for debugging set to false;
-            ADDITIONALLY_SEND_TO = [] # additionally send these emails to
-        
+    
+    users.register(FooUser, dict(
+        APP_LABEL = 'myappname' # used for prefixing the urlnames 
+        URL_PREFIX = 'myurlprefix' # all users urls are prefixed with that string
+        FROM_EMAIL = 'system@schnapptack.de' # your from email
+        CONFIRM_EMAIL_SUBJECT = 'your new FooApp account' # the subject of the email 
+        LOGIN_URL = 'login/' # the login url relative to the URL_PREFIX
+        LOGIN_REDIRECT_URL = '/' 
+        LOGOUT_REDIRECT_URL = '/ciao/'
+        USE_USER_EMAIL = False, # indicate whether to use the email of this user or not; for debugging set to false;
+        ADDITIONALLY_SEND_TO = [] # additionally send these emails to
+    ))
 
-urlpatterns
+Your urlpatterns
 -----------------
 
 .. code-block:: python
 
-    from users import authurls
     from foo.models import FooUser
     
     ...
     
-    urlpatterns += authurls.get_patterns(FooUser)
+    urlpatterns += FooUser.get_urlpatterns()
 
 
 
