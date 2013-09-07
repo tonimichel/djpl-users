@@ -1,0 +1,33 @@
+{% extends "users/base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Activate your Account' %}{% endblock %}
+
+{% block bodyclass %}account-process{% endblock %}
+
+{% block content %}
+    {% if validlink %}
+            <h1>{% trans 'Activate your account and set your password' %}</h1>
+
+            <p>{% trans "Please enter the password twice so we can verify you typed it in correctly." %}</p>
+
+            <form action="" method="post">{% csrf_token %}
+                <div class="form-row">
+                    {{ form.new_password1.errors }}
+                    <label for="id_new_password1">{% trans 'New password:' %}</label>
+                    {{ form.new_password1 }}
+                </div>
+                <div class="form-row">
+                    {{ form.new_password2.errors }}
+                    <label for="id_new_password2">{% trans 'Confirm password:' %}</label>{{ form.new_password2 }}
+                    
+                    <input type="submit" value="{% trans 'Activate your account' %}" />
+                </div>
+            </form>
+
+    {% else %}
+            <h1>{% trans 'Account activation unsuccessful' %}</h1>
+            <p>{% trans "The Account activation link was invalid, possibly because it has already been used." %}</p>
+    {% endif %}
+
+{% endblock %}
