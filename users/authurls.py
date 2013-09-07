@@ -11,11 +11,9 @@ def _logout(request, **kws):
     return logout(request, **kws)
 
 def get_patterns(user_model):
-
-    if not user_model.hasattr('AppConfig'):
-        raise Exception('Your user model %s should define an inner class AppConfig' % user_model)
-
-    conf = user_model.AppConfig
+  
+    conf = user_model.appconfig
+    URLNAMES = user_model.urlnames
 
     # ensure ending slashes if URL_PREFIX is provided
     if len(conf.URL_PREFIX) > 0 and not conf.URL_PREFIX.endswith('/'):
@@ -23,16 +21,16 @@ def get_patterns(user_model):
     
     login_url = conf.LOGIN_URL or '/%slogin/' % conf.URL_PREFIX
     login_redirect_url = conf.LOGIN_REDIRECT_URL or ''
-    logout_view_args = dict(template_name='users/accounts/logged_out.html')
+    logout_view_args = dict(template_name='users/logged_out.html')
     if conf.LOGOUT_REDIRECT_URL:
         logout_view_args['next_page'] = conf.LOGOUT_REDIRECT_URL
-    URLNAMES = conf.get_urlnames()
+    
     # Registrational urls
     return patterns('',
         url(
             r'^%slogin/$' % conf.URL_PREFIX,
             login, {
-                'template_name': 'users/accounts/login.html',
+                'template_name': 'users/login.html',
                 'authentication_form': AuthenticationForm,
                 'extra_context': {
                     'password_reset_url': '/%spassword_reset/' % conf.URL_PREFIX,
@@ -51,7 +49,7 @@ def get_patterns(user_model):
         url(
             r'^%spassword_change/$' % conf.URL_PREFIX,
             password_change, {
-                'template_name': 'users/accounts/password_change.html',
+                'template_name': 'users/password_change.html',
                 'post_change_redirect': '/%spassword_change_done/' % conf.URL_PREFIX
             },
             name=URLNAMES.password_change_urlname
@@ -59,7 +57,7 @@ def get_patterns(user_model):
         # password change done url; displays confirmation.
         url(
             r'^%spassword_change_done/$' % conf.URL_PREFIX,
-            password_change_done, {'template_name': 'users/accounts/password_change_done.html' },
+            password_change_done, {'template_name': 'users/password_change_done.html' },
             name=URLNAMES.password_change_done_urlname
         ),
         
@@ -68,7 +66,7 @@ def get_patterns(user_model):
         url(
             r'^%saccount_confirm/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             account_confirm, {
-                'template_name': 'users/accounts/account_confirm.html',
+                'template_name': 'users/account_confirm.html',
                 'post_reset_redirect': '/%saccount_confirm_complete/' % conf.URL_PREFIX,
             },
             name=URLNAMES.account_confirm_urlname
@@ -77,7 +75,7 @@ def get_patterns(user_model):
         url(
             r'^%saccount_confirm_complete/$' % conf.URL_PREFIX,
             TemplateView.as_view(
-                template_name='users/accounts/account_confirm_complete.html',
+                template_name='users/account_confirm_complete.html',
             ), 
             {'login_url': login_url},
             name=URLNAMES.account_confirm_complete_urlname
@@ -88,7 +86,7 @@ def get_patterns(user_model):
         url(
             r'^%spassword_reset/$' % conf.URL_PREFIX,
             password_reset, {
-                'template_name': 'users/accounts/password_reset.html',
+                'template_name': 'users/password_reset.html',
                 'post_reset_redirect': '/%spassword_reset_done/' % conf.URL_PREFIX,
                 'email_template_name': 'users/email/password_reset.html',
                 'password_reset_form': get_password_reset_form(URLNAMES.password_reset_confirm_urlname),
@@ -99,7 +97,7 @@ def get_patterns(user_model):
         url(
             r'^%spassword_reset_done/$' % conf.URL_PREFIX,
             password_reset_done, {
-                'template_name': 'users/accounts/password_reset_done.html'
+                'template_name': 'users/password_reset_done.html'
             },
             name=URLNAMES.password_reset_done_urlname
         ),
@@ -107,7 +105,7 @@ def get_patterns(user_model):
         url(
             r'^%spassword_reset_confirm/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             password_reset_confirm, {
-                'template_name': 'users/accounts/password_reset_confirm.html',
+                'template_name': 'users/password_reset_confirm.html',
                 'post_reset_redirect': '/%spassword_reset_complete/' % conf.URL_PREFIX,
             },
             name=URLNAMES.password_reset_confirm_urlname
@@ -116,7 +114,7 @@ def get_patterns(user_model):
         url(
             r'^%spassword_reset_complete/$' % conf.URL_PREFIX,
             password_reset_complete, {
-                'template_name': 'users/accounts/password_reset_complete.html',
+                'template_name': 'users/password_reset_complete.html',
                 'extra_context': {'login_url': login_url}
             },
             name=URLNAMES.password_reset_complete_urlname

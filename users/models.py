@@ -29,7 +29,7 @@ class AbstractUser(User, models.Model):
         return self.username
     
         
-    def save(self, *args, **kwargs):
+    def save(self, send_confirmation_mail=True):
         updated = self.id
 
         if not updated:
@@ -38,13 +38,17 @@ class AbstractUser(User, models.Model):
         
         super(AbstractUser, self).save()
         
-        if not updated and self.is_active:
+        if not updated and self.is_active and send_confirmation_mail:
             # send account confirmation mail after user was saved 
             self.confirm_account()
         
-    def confirm_account(self):
-        conf = self.AppConfig
-        domain = getattr(conf, 'CONFIRM_LINK_TARGET_DOMAIN', False) or Site.objects.get(id=settings.SITE_ID).domain
+    def confirm_account(self, template='users/email/account_confirmation.html'):
+        conf = self.appconfig
+        
+        domain = Site.objects.get(id=settings.SITE_ID).domain
+        if not domain.startswith('http'):
+            domain = 'http://' + domain
+        
         token = default_token_generator.make_token(self)
         uid = int_to_base36(self.id)
         bcc = conf.ADDITIONALLY_SEND_TO
@@ -60,7 +64,7 @@ class AbstractUser(User, models.Model):
             to = recipients,
             bcc = bcc,
             subject = conf.CONFIRM_EMAIL_SUBJECT,
-            template = 'users/email/account_confirmation.html',
+            template = template,
             context = {
                 'token': token,
                 'uid': uid,
@@ -68,7 +72,7 @@ class AbstractUser(User, models.Model):
                 'domain': domain,
                 'account_confirm_url': '%s%s' % ( 
                     domain, 
-                    reverse(conf.get_urlnames().account_confirm_urlname, kwargs={
+                    reverse(self.urlnames.account_confirm_urlname, kwargs={
                         'uidb36': uid,
                         'token': token
                     })
@@ -82,34 +86,6 @@ class AbstractUser(User, models.Model):
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
     
-
-class UserAppConfig(object):
-    APP_LABEL = None 
-    URL_PREFIX = None
-    USER_MODEL = None 
-    FROM_EMAIL = None 
-    CONFIRM_EMAIL_SUBJECT = None
-    CONFIRM_LINK_TARGET_DOMAIN = None
-    LOGIN_URL = None
-    LOGIN_REDIRECT_URL = None
-    LOGOUT_REDIRECT_URL = None
-    USE_USER_EMAIL = False,
-    ADDITIONALLY_SEND_TO = []
-    
-    @classmethod
-    def get_urlnames(cls):
-        class __urlnames__(object):
-            login_urlname = '%s-login' % cls.APP_LABEL
-            logout_urlname = '%s-logout' % cls.APP_LABEL
-            password_change_urlname = '%s-password_change' % cls.APP_LABEL
-            password_change_done_urlname = '%s-password_change_done' % cls.APP_LABEL
-            account_confirm_urlname = '%s-account_confirmation' % cls.APP_LABEL
-            account_confirm_complete_urlname = '%s-account_confirm_complete' % cls.APP_LABEL
-            password_reset_urlname = '%s-password_reset' % cls.APP_LABEL
-            password_reset_done_urlname = '%s-password_reset_done' % cls.APP_LABEL
-            password_reset_confirm_urlname = '%s-password_reset_confirm' % cls.APP_LABEL
-            password_reset_complete_urlname = '%s-password_reset_complete' % cls.APP_LABEL
-        return __urlnames__
 
        
     
