@@ -74,6 +74,7 @@ class AbstractUser(User, models.Model):
         }
         context.update(extra_context)
         
+        
         email = HtmlEmail(
             from_email = conf.FROM_EMAIL,
             to = recipients,
