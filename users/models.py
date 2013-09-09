@@ -29,7 +29,7 @@ class AbstractUser(User, models.Model):
         return self.username
     
         
-    def save(self, send_confirmation_mail=True):
+    def save(self, send_confirmation=True):
         updated = self.id
 
         if not updated:
@@ -38,11 +38,11 @@ class AbstractUser(User, models.Model):
         
         super(AbstractUser, self).save()
         
-        if not updated and self.is_active and send_confirmation_mail:
+        if not updated and self.is_active and send_confirmation:
             # send account confirmation mail after user was saved 
             self.confirm_account()
         
-    def confirm_account(self, template='users/email/account_confirmation.html'):
+    def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}):
         conf = self.appconfig
         
         domain = Site.objects.get(id=settings.SITE_ID).domain
@@ -58,6 +58,21 @@ class AbstractUser(User, models.Model):
         else:
             recipients = bcc
             bcc = None
+            
+        context = {
+            'token': token,
+            'uid': uid,
+            'user': self,
+            'domain': domain,
+            'account_confirm_url': '%s%s' % ( 
+                domain, 
+                reverse(self.urlnames.account_confirm_urlname, kwargs={
+                    'uidb36': uid,
+                    'token': token
+                })
+            )
+        }
+        context.update(extra_context)
         
         email = HtmlEmail(
             from_email = conf.FROM_EMAIL,
@@ -65,19 +80,7 @@ class AbstractUser(User, models.Model):
             bcc = bcc,
             subject = conf.CONFIRM_EMAIL_SUBJECT,
             template = template,
-            context = {
-                'token': token,
-                'uid': uid,
-                'user': self,
-                'domain': domain,
-                'account_confirm_url': '%s%s' % ( 
-                    domain, 
-                    reverse(self.urlnames.account_confirm_urlname, kwargs={
-                        'uidb36': uid,
-                        'token': token
-                    })
-                )
-            }
+            context = context
         )
         email.send()
         self.is_active = True
