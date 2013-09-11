@@ -45,12 +45,9 @@ class AbstractUser(User, models.Model):
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}):
         conf = self.appconfig
         
-        domain = Site.objects.get(id=settings.SITE_ID).domain
-        if not domain.startswith('http'):
-            domain = 'http://' + domain
         
-        token = default_token_generator.make_token(self)
-        uid = int_to_base36(self.id)
+        
+        
         bcc = conf.ADDITIONALLY_SEND_TO
         
         if conf.USE_USER_EMAIL:
@@ -60,20 +57,10 @@ class AbstractUser(User, models.Model):
             bcc = None
             
         context = {
-            'token': token,
-            'uid': uid,
             'user': self,
-            'domain': domain,
-            'account_confirm_url': '%s%s' % ( 
-                domain, 
-                reverse(self.urlnames.account_confirm_urlname, kwargs={
-                    'uidb36': uid,
-                    'token': token
-                })
-            )
+            'account_confirm_url': self.get_account_confirm_link(self.urlnames.account_confirm_urlname)
         }
         context.update(extra_context)
-        
         
         email = HtmlEmail(
             from_email = conf.FROM_EMAIL,
@@ -86,6 +73,21 @@ class AbstractUser(User, models.Model):
         email.send()
         self.is_active = True
         self.save()
+        
+    
+    def get_account_confirm_link(self, urlname):
+        domain = Site.objects.get(id=settings.SITE_ID).domain
+        if not domain.startswith('http'):
+            domain = 'http://' + domain
+    
+        return '%s%s' % (
+            domain, 
+            reverse(urlname, kwargs={
+                'uidb36': int_to_base36(self.id),
+                'token':  default_token_generator.make_token(self)
+            })
+        )
+    
         
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
