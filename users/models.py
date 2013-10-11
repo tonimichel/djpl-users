@@ -35,19 +35,18 @@ class AbstractUser(User, models.Model):
         if not updated:
             # set unsable password before the user is saved
             self.set_unusable_password()
+            self.is_staff = self.appconfig.IS_STAFF
         
         super(AbstractUser, self).save()
         
         if not updated and self.is_active and send_confirmation:
             # send account confirmation mail after user was saved 
             self.confirm_account()
+
+
         
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}):
         conf = self.appconfig
-        
-        
-        
-        
         bcc = conf.ADDITIONALLY_SEND_TO
         
         if conf.USE_USER_EMAIL:

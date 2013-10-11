@@ -21,10 +21,10 @@ def register(modelclass, config):
     
 
     
-    
+    # set appconfig defaults
     class __appconfig__(object):
         LOGIN_URL = None
-        
+        IS_STAFF = False
         
     for key, value in config.items():
         setattr(__appconfig__, key, value)
