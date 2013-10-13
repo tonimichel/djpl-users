@@ -1,4 +1,4 @@
-django-users
+djpl-users
 ====================================
 
 A django-productline feature to enable user functionality for non-admin multiuser scenarios.
@@ -26,47 +26,46 @@ featuring:
 * admin actions to manually send confirmation emails
 
 The users feature is designed for scenarios where you have a user base and dont want
-to set or reset each user's password manually. You might use it in admin scenarios
+to set or reset each user's password manually. You can use it in admin scenarios
 or non-admin scenarios.
 
-The usage can be accomplished in 3 steps:
+Integrating djpl-users can be accomplished in 4 steps:
 
-1) Create your own user model extending AbstractUser
-2) Register your custom user model *users.register(modelclass, config)*
-3) Add the urlpatterns (usermodel.get_urlpatterns)
+1) Add ``users`` to your ``settings.INSTALLED_APPS`` or add the feature to your product
+2) Create your own user model extending ``AbstractUser``
+3) Register your custom user model *users.register(modelclass, config)*
+4) Add the urlpatterns (usermodel.get_urlpatterns)
 
-As users required emails, be sure to introduce the necessary email properties in your settings.
-
-
+As the feature sends emails, be sure to introduce the necessary email server configuration in your settings.
 
 
 Your models
 ----------------
 
-Just extend AbstractUser and specify your AppConfig.
+Just extend AbstractUser and register your new model.
 
 .. code-block:: python
 
     from django.db import models
     from users.models import AbstractUser
     import users
-    
+
     class FooUser(AbstractUser):
-        
+
         someadditionalfield = models.CharField(max_length=255)
-        
-    
+
     users.register(FooUser, dict(
-        APP_LABEL = 'myappname' # used for prefixing the urlnames 
-        URL_PREFIX = 'myurlprefix' # all users urls are prefixed with that string
-        FROM_EMAIL = 'system@schnapptack.de' # your from email
-        CONFIRM_EMAIL_SUBJECT = 'your new FooApp account' # the subject of the email 
-        LOGIN_URL = 'login/' # the login url relative to the URL_PREFIX
-        LOGIN_REDIRECT_URL = '/' 
-        LOGOUT_REDIRECT_URL = '/ciao/'
+        APP_LABEL = 'myappname', # used for prefixing the urlnames
+        URL_PREFIX = 'myurlprefix', # all users urls are prefixed with that string
+        FROM_EMAIL = 'info@schnapptack.de', # your from email
+        CONFIRM_EMAIL_SUBJECT = 'your new FooApp account', # the subject of the email
+        LOGIN_URL = 'login/', # the login url relative to the URL_PREFIX
+        LOGIN_REDIRECT_URL = '/',
+        LOGOUT_REDIRECT_URL = '/ciao/',
         USE_USER_EMAIL = False, # indicate whether to use the email of this user or not; for debugging set to false;
-        ADDITIONALLY_SEND_TO = [] # additionally send these emails to
+        ADDITIONALLY_SEND_TO = [], # additionally send these emails to
     ))
+
 
 Your urlpatterns
 -----------------
@@ -74,9 +73,9 @@ Your urlpatterns
 .. code-block:: python
 
     from foo.models import FooUser
-    
+
     ...
-    
+
     urlpatterns += FooUser.get_urlpatterns()
 
 
@@ -89,14 +88,12 @@ admin.py
     from django.contrib import admin
     from users.admin import UserAdmin
     from foo.models import FooUser
-    
+
     class FooUserAdmin(UserAdmin):
         pass
-        
-        
-    admin.site.register(FooUser, FooUserAdmin)
-    
 
+
+    admin.site.register(FooUser, FooUserAdmin)
 
 
 License
