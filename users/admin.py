@@ -108,18 +108,22 @@ class UserAdmin(admin.ModelAdmin):
    
    
 class UserSelfAdmin(admin.ModelAdmin):
-    fieldsets=[
-         ('main', {
-            'fields': ('email', )
-        }),
-    ]
+    fields = ['first_name', 'last_name', 'email']
 
     def add_view(self, request, form_url='', extra_context=None):
-        return self.change_view(request, request.user.id)
+        return HttpResponseRedirect(reverse('admin:%s_%s_change' % self.model._meta.app_label, self.model.__class__.__name__, args=[request.user.id]))
         
         
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        return super(AbstractUserSelfAdmin, self).change_view(request, request.user.id, form_url=form_url, extra_context=extra_context)
+        
+        extra_context = extra_context or {}
+        extra_context['title'] = 'My Profile'
+    
+        return super(UserSelfAdmin, self).change_view(request, str(request.user.id), form_url=form_url, extra_context=extra_context)
+        
+        
+    def changelist_view(self, request, extra_context=None):
+        return HttpResponseRedirect(reverse('admin:%s_%s_change' % (self.model._meta.app_label, self.model.__name__.lower()), args=[request.user.id]))
 
 
 
