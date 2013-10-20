@@ -10,7 +10,6 @@ from django.contrib.auth.models import User
 from django.contrib.admin import actions
 
 
-
 class UserAdmin(admin.ModelAdmin):
     
     def __init__(self, *args, **kwargs):
@@ -42,7 +41,15 @@ class UserAdmin(admin.ModelAdmin):
     def send_account_confirmation(self, request, queryset):
         for user in queryset:
             user.confirm_account()
+        if len(queryset):
+            messages.success(request, _('Account confirmation email sent out for %s user(s)') % len(queryset))
+        
     send_account_confirmation.short_description = _('Send account confirmation email to selected users')
+
+
+    def response_add(self, request, obj, post_url_continue=None):
+        messages.success(request, _('We just sent out a confirmation email to %s' % obj.email))
+        return super(UserAdmin, self).response_add(request, obj, post_url_continue=post_url_continue)
 
 
     # -----------------------
