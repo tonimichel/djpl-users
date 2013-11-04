@@ -96,14 +96,13 @@ class AbstractUser(User, models.Model):
         
     
     def clean(self):
-        
+        qs = User.objects.filter(username=self.email)
         if self.id:
             u = User.objects.get(id=self.id)
-    
-        if User.objects.filter(username=self.email).exclude(email=u.email).count() > 0:
+            qs.exclude(email=u.email)
+        if qs.count() > 0:
             raise ValidationError(_('A user with that email already exists.'))
     
-
        
     
     
