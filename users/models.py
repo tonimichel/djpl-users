@@ -2,12 +2,15 @@
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as __
+from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.contrib.sites.models import Site
 from emailing.emails import HtmlEmail
 from django.utils.http import int_to_base36
 from django.contrib.auth.tokens import default_token_generator
+from django.core.exceptions import ValidationError
+
 
 class AbstractUser(User, models.Model):
     '''
@@ -90,6 +93,15 @@ class AbstractUser(User, models.Model):
         
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
+        
+    
+    def clean(self):
+        
+        if self.id:
+            u = User.objects.get(id=self.id)
+    
+        if User.objects.filter(username=self.email).exclude(email=u.email).count() > 0:
+            raise ValidationError(_('A user with that email already exists.'))
     
 
        
