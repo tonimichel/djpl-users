@@ -16,7 +16,6 @@ class UserAdmin(admin.ModelAdmin):
         super(UserAdmin, self).__init__(*args, **kwargs)
         self.form = get_user_form(self.model)
     
-    
     fieldsets=[
         (_('User data'), {
             'fields': ('first_name', 'last_name')
@@ -116,16 +115,18 @@ class UserAdmin(admin.ModelAdmin):
    
 class UserSelfAdmin(admin.ModelAdmin):
     fields = ['first_name', 'last_name', 'email']
+    
+    def __init__(self, *args, **kwargs):
+        super(UserSelfAdmin, self).__init__(*args, **kwargs)
+        self.form = get_user_form(self.model)
 
     def add_view(self, request, form_url='', extra_context=None):
         return HttpResponseRedirect(reverse('admin:%s_%s_change' % self.model._meta.app_label, self.model.__class__.__name__, args=[request.user.id]))
         
         
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        
         extra_context = extra_context or {}
         extra_context['title'] = 'My Profile'
-    
         return super(UserSelfAdmin, self).change_view(request, str(request.user.id), form_url=form_url, extra_context=extra_context)
         
         
