@@ -4,7 +4,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import get_current_site
 from django.template import Context, loader
 from django import forms
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as __
+from django.utils.translation import ugettext as _
 from django.utils.http import int_to_base36
 from django.core.urlresolvers import reverse
 from emailing.emails import HtmlEmail
@@ -16,13 +17,14 @@ class AuthenticationForm(DjangoAuthForm):
     Base class for authenticating users. Extend this to get a form that accepts
     username/password logins.
     """
-    username = forms.CharField(label=_("Username"))
-
+    username = forms.CharField(label=__("Username"))
 
 
 def get_user_form(modelclass):
     class UserForm(forms.ModelForm):
-        email = forms.EmailField(required=True, label='Email')
+        email = forms.EmailField(required=True, label=_('Email'))
+        first_name = forms.CharField(required=True, max_length=255, label=_('First name'))
+        last_name = forms.CharField(required=True, max_length=255, label=_('Last name'))
         class Meta:
             model = modelclass
             
@@ -32,7 +34,7 @@ def get_user_form(modelclass):
 def get_password_reset_form(password_reset_confirm_urlname):
 
     class PasswordResetForm(forms.Form):
-        email = forms.EmailField(label=_("E-mail"), max_length=75)
+        email = forms.EmailField(label=_("Email"), max_length=75)
 
         def clean_email(self):
             """
