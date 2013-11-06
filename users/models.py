@@ -50,13 +50,13 @@ class AbstractUser(User, models.Model):
         
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}):
         conf = self.appconfig
-        bcc = conf.ADDITIONALLY_SEND_TO
+        bcc = settings.ADDITIONALLY_SEND_TO
         
-        if conf.USE_USER_EMAIL:
-            recipients = [self.email]
-        else:
-            recipients = bcc
+        if settings.IGNORE_USER_EMAIL:
+            receipients = bcc
             bcc = None
+        else:
+            receipients = [self.email]
             
         context = {
             'user': self,
@@ -66,7 +66,7 @@ class AbstractUser(User, models.Model):
         
         email = HtmlEmail(
             from_email = conf.FROM_EMAIL,
-            to = recipients,
+            to = receipients,
             bcc = bcc,
             subject = conf.CONFIRM_EMAIL_SUBJECT,
             template = template,
