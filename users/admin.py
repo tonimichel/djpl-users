@@ -1,6 +1,8 @@
+# -*- coding: utf-8 -*-
 from django.contrib import admin
 from django.conf.urls.defaults import url, patterns, include
 from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as __
 from users.forms import get_user_form
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
@@ -25,7 +27,7 @@ class UserAdmin(admin.ModelAdmin):
         }),
     ]
    
-    actions = ['set_active', 'set_inactive', 'send_account_confirmation', 'delete_selected']
+    actions = ['send_account_confirmation', 'delete_selected']
     list_display = ['username', 'date_joined', 'is_active']
    
    
@@ -43,7 +45,7 @@ class UserAdmin(admin.ModelAdmin):
         if len(queryset):
             messages.success(request, _('Account confirmation email sent out for %s user(s)') % len(queryset))
         
-    send_account_confirmation.short_description = _('Send account confirmation email to selected users')
+    send_account_confirmation.short_description = __('Send account confirmation email')
 
 
     def response_add(self, request, obj, post_url_continue=None):
