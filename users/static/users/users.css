@@ -19,13 +19,16 @@ body.users {font-family: arial, sans-serif; color:#646464; background: url(grey_
 .users.login #container #header { padding: 12px 12px 12px 27px;; 
     -webkit-border-radius:  4px 4px 0px 0px;-moz-border-radius: 4px 4px 0px 0px;border-radius: 4px 4px 0px 0px;
     border-bottom:1px solid #fff;
-    background-color: #5295B0; color:#fbfbfb;
-    background-repeat: no-repeat;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#83B3C3), to(#5295B0));
-    background-image: -webkit-linear-gradient(#83B3C3, #5295B0);
-    background-image: -moz-linear-gradient(#83B3C3, #5295B0);
-    background-image: -o-linear-gradient(top, #83B3C3, #5295B0);
-    background-image: -khtml-gradient(linear, left top, left bottom, from(#83B3C3), to(#5295B0));
+    background-color: #5BB75B;
+    color: #fff !important;
+    text-shadow: none;
+    background-image: -moz-linear-gradient(top, #96c221, #7ca217);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#96c221), to(#7ca217));
+    background-image: -webkit-linear-gradient(top, #96c221, #7ca217);
+    background-image: -o-linear-gradient(top, #96c221, #7ca217);
+    background-image: linear-gradient(to bottom, #96c221, #7ca217);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff96c221', endColorstr='#ff7ca217', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0))";
 }
