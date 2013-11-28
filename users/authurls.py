@@ -5,7 +5,7 @@ from django.contrib.auth.views import password_change, password_change_done, pas
 from django.contrib.auth.views import password_reset_confirm as account_confirm
 from users.forms import get_password_reset_form, AuthenticationForm
 from django.views.generic import TemplateView
-
+from django.conf import settings
 
 def _logout(request, **kws):
     return logout(request, **kws)
@@ -19,16 +19,20 @@ def get_patterns(user_model):
     if len(conf.URL_PREFIX) > 0 and not conf.URL_PREFIX.endswith('/'):
         conf.URL_PREFIX += '/'
     
-    login_url = conf.LOGIN_URL or '/%slogin/' % conf.URL_PREFIX
-    login_redirect_url = conf.LOGIN_REDIRECT_URL or ''
+    login_url = settings.LOGIN_URL
+    if not login_url.startswith('/'):
+        login_url = '/' + login_url
+    
+    login_url_for_pattern = ''.join(login_url[1:])
+    
+    login_redirect_url = settings.LOGIN_REDIRECT_URL
     logout_view_args = dict(template_name='users/logged_out.html')
-    if conf.LOGOUT_REDIRECT_URL:
-        logout_view_args['next_page'] = conf.LOGOUT_REDIRECT_URL
+    logout_view_args['next_page'] = settings.LOGOUT_REDIRECT_URL
     
     # Registrational urls
     return patterns('',
         url(
-            r'^%slogin/$' % conf.URL_PREFIX,
+            r'^%s$' % login_url_for_pattern,
             login, {
                 'template_name': 'users/login.html',
                 'authentication_form': AuthenticationForm,
