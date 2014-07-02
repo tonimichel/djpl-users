@@ -22,19 +22,19 @@ class AuthenticationForm(DjangoAuthForm):
 
 def get_user_form(modelclass):
     class UserForm(forms.ModelForm):
-        email = forms.EmailField(required=True, label=_('Email'))
-        first_name = forms.CharField(required=True, max_length=255, label=_('First name'))
-        last_name = forms.CharField(required=True, max_length=255, label=_('Last name'))
+        email = forms.EmailField(required=True, label=__('Email'))
+        first_name = forms.CharField(required=True, max_length=255, label=__('First name'))
+        last_name = forms.CharField(required=True, max_length=255, label=__('Last name'))
         class Meta:
             model = modelclass
-            
+            fields = ['email']
     return UserForm
 
 
 def get_password_reset_form(password_reset_confirm_urlname):
 
     class PasswordResetForm(forms.Form):
-        email = forms.EmailField(label=_("Email"), max_length=75)
+        email = forms.EmailField(label=__("Email"), max_length=75)
 
         def clean_email(self):
             """

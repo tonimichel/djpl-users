@@ -12,7 +12,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError
 
 
-class AbstractUser(User, models.Model):
+class AbstractUser(User):
     '''
     Defines an abstract user model which can be inherited and refined by a concrete application's user
     model.
@@ -36,7 +36,7 @@ class AbstractUser(User, models.Model):
         updated = self.id
 
         if not updated:
-            # set unsable password before the user is saved
+            # set unusable password before the user is saved
             self.set_unusable_password()
             self.is_staff = self.appconfig.IS_STAFF
         
