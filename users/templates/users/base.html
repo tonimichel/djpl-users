@@ -8,13 +8,12 @@
         {% include "media_includes.html" %}
 	</head>
 	<body class="users {% block bodyclass %} {% endblock %}">
-	
-	    <div id="container">
-            <div id="header">
-                <div id="branding">
-                    {% block branding%}<a id="logo"></a>{% endblock %}
-                </div>
+	     <div id="header">
+            <div id="branding">
+                {% block branding%}<a id="logo"><div></div></a>{% endblock %}
             </div>
+        </div>
+	    <div id="container">
             <div id="content">
                 {% block content %}
                 {% endblock %}

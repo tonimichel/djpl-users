@@ -16,24 +16,15 @@ body.users {font-family: arial, sans-serif; color:#646464; background: url(grey_
     
 .users.login #container #content {
 }
-.users.login #container #header { padding: 12px 12px 12px 27px;; 
+.users.login #container #header { height:0px; padding:0px; 
     -webkit-border-radius:  4px 4px 0px 0px;-moz-border-radius: 4px 4px 0px 0px;border-radius: 4px 4px 0px 0px;
     border-bottom:1px solid #fff;
-    background-color: #5BB75B;
-    color: #fff !important;
-    text-shadow: none;
-    background-image: -moz-linear-gradient(top, #96c221, #7ca217);
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#96c221), to(#7ca217));
-    background-image: -webkit-linear-gradient(top, #96c221, #7ca217);
-    background-image: -o-linear-gradient(top, #96c221, #7ca217);
-    background-image: linear-gradient(to bottom, #96c221, #7ca217);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff96c221', endColorstr='#ff7ca217', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#83b3c3', EndColorStr='#5295b0', GradientType=0))";
 }
-.users.login #container #header h1 {margin:0px;}
-.users.login form {border-top:1px solid #ddd;}
+.users.login #container #content {padding:0px;}
+.users.login #container #content form{ padding-top:12px; background: #fbfbfb;}
+
+.users.login #container #content h1 {margin:0px; padding:12px 0px 5px 27px;background: #fbfbfb; border-bottom:1px solid #ddd;}
+
 .users.login .form-row label {line-height:1.5;}
 .users.login .form-row {padding:8px 8px 0px 27px;}
 .users.login .form-row.password {border-bottom:1px solid #eee; padding-bottom:18px;}
@@ -43,6 +34,9 @@ body.users {font-family: arial, sans-serif; color:#646464; background: url(grey_
 .users.login .submit-row a {font-size:12px; }
 .users.login .errornote {padding:8px; padding-left: 27px; border-bottom:1px solid red; background:#F5EDED; font-size:12px;}
 
+.users.login input[type="submit"]{float:left;}
+.users .forgot_password {float: left;
+line-height: 37px;}
 
 /*  LOGIN
 ------------------------------------------------------------------------ */

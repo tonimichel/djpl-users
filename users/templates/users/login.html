@@ -5,10 +5,11 @@
 
 {% block bodyclass %}login{% endblock %}
 
-{% block branding %}<h1>{% trans "Login" %}</h1> {% endblock %}
 
 {% block content %}
-      
+        
+        <h1>Login</h1>
+        
         <form action="{{ login_url }}" method="post" id="login-form">{% csrf_token %}
         
             {% if form.errors and not form.non_field_errors and not form.this_is_the_login_form.errors %}
@@ -38,6 +39,7 @@
           <div class="submit-row">
             <input type="submit" value="{% trans 'Log in' %}" />
              <a href="{{ password_reset_url }}" class="forgot_password">{% trans "Forgot your password?" %}</a>
+             <div class="clear"></div>
           </div>
         </form>
        

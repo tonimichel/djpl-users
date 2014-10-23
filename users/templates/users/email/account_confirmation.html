@@ -7,7 +7,13 @@
     <p>{% trans "Your username is" %} <b>{{ user.username }}</b>.</p>
     <p>{% blocktrans %}After you have activated your account and set your password you can log in the system.{% endblocktrans %}</p>
         
+    
+    <h2>Aktivierungslink</h2>        
+    <p>[Dieser verfällt nachdem das Passwort gesetzt wurde]</p>
     <a href="{{ account_confirm_url }}">{% trans "Activate your account and set your password" %}</a>
+    
+    <h2>Login</h2>
+    <a href="{{ login_url }}">{{ login_url }}</a>
     
 {% endblock %}
 
