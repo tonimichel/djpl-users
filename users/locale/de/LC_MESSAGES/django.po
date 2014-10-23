@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djpl_users\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-13 10:15-0500\n"
-"PO-Revision-Date: 2013-10-13 18:28+0100\n"
-"Last-Translator: Hendrik Speidel <hendrik@schnapptack.de>\n"
+"POT-Creation-Date: 2014-10-22 12:14-0500\n"
+"PO-Revision-Date: 2014-10-22 19:15+0100\n"
+"Last-Translator: Toni Michel <toni@schnapptack.de>\n"
 "Language-Team: schnapptack <info@schnapptack.de>\n"
 "Language: DE\n"
 "MIME-Version: 1.0\n"
@@ -19,46 +19,72 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin.py:16
+#: admin.py:22
 msgid "User data"
 msgstr "Benutzerdaten"
 
-#: admin.py:19
+#: admin.py:25
 msgid "Credentials"
 msgstr "Anmeldedaten"
 
-#: admin.py:28
+#: admin.py:36
 msgid "Mark selected users as active"
 msgstr "Gewählte Nutzer auf inaktiv setzen"
 
-#: admin.py:32
+#: admin.py:40
 msgid "Mark selected users as inactive"
 msgstr "Gewählte Nutzer auf aktiv setzen"
 
-#: admin.py:37
-msgid "Send account confirmation email to selected users"
+#: admin.py:46
+#, fuzzy, python-format
+#| msgid "Send account confirmation email to selected users"
+msgid "Account confirmation email sent out for %s user(s)"
 msgstr "Aktivierungsemail per Email an Benutzer senden"
 
-#: forms.py:19
-msgid "Username"
-msgstr "Benutzername"
+#: admin.py:52
+#, fuzzy, python-format
+#| msgid "Send account confirmation email to selected users"
+msgid "We just sent out a confirmation email to %s"
+msgstr "Aktivierungsemail per Email an Benutzer senden"
 
-#: forms.py:35
-msgid "E-mail"
+#: admin.py:64 admin.py:86 admin.py:109
+msgid "You cannot delete yourself!"
+msgstr "Sie können Ihren eigenen Benutzer nicht löschen!"
+
+#: admin.py:83
+msgid "You cannot delete yourself! Removed you from selection."
+msgstr ""
+"Sie können Ihren eigenen Benutzer nicht löschen. Deshalb wurde Ihr Benutzer "
+"aus der Auswahl entfernt."
+
+#: forms.py:28
+#, fuzzy
+#| msgid "E-mail"
+msgid "Email"
 msgstr "Email-Adresse"
 
-#: forms.py:47
-msgid ""
-"That e-mail address doesn't have an associated user account. Are you sure "
-"you've registered?"
-msgstr "Zu dieser Adresse ist kein Benutzer vorhanden. "
+#: forms.py:29
+msgid "First name"
+msgstr "Vorname"
+
+#: forms.py:30
+msgid "Last name"
+msgstr "Nachname"
+
+#: forms.py:31
+msgid "Groups"
+msgstr "Benutzergruppen"
+
+#: models.py:118
+msgid "Ein Benutzer mit dieser Email-Adresse existiert bereits."
+msgstr ""
 
 #: templates/users/account_confirm.html:4
 msgid "Activate your Account"
 msgstr "Benutzerzugang aktivieren"
 
 #: templates/users/account_confirm.html:10
-#: templates/users/email/account_confirmation.html:10
+#: templates/users/email/account_confirmation.html:13
 msgid "Activate your account and set your password"
 msgstr "Benutzerzugang aktivieren und Passwort vergeben"
 
@@ -104,6 +130,44 @@ msgstr "Ihr Benutzerzugang wurde erfolgreich aktiviert"
 #: templates/users/account_confirm_complete.html:10
 msgid "Log in with your new account"
 msgstr "Melden Sie sich mit Ihrem neuen Zugang an"
+
+#: templates/users/email/account_confirmation.html:5
+msgid "Confirm your Account"
+msgstr "Benutzerzugang bestätigen"
+
+#: templates/users/email/account_confirmation.html:7
+msgid "Your username is"
+msgstr "Ihr Benutzername lautet"
+
+#: templates/users/email/account_confirmation.html:8
+msgid ""
+"After you have activated your account and set your password you can log in "
+"the system."
+msgstr ""
+"Nachdem der Zugang aktiviert ist und Sie Ihr Passwort vergeben haben können "
+"Sie sich ins System einloggen. "
+
+#: templates/users/email/password_reset.html:5
+msgid "Reset your password"
+msgstr "Passwort zurücksetzen"
+
+#: templates/users/email/password_reset.html:8
+#, python-format
+msgid ""
+"You're receiving this e-mail because you requested a password reset for your "
+"user account at %(site_name)s."
+msgstr ""
+"Sie erhalten diese Email weil Sie ein neues Passwort für Ihren "
+"Benutzerzugang von %(site_name)s vergeben möchten."
+
+#: templates/users/email/password_reset.html:11
+msgid "Please go to the following page and choose a new password:"
+msgstr ""
+"Bitte besuchen die folgende Seite und legen Sie dort ein neues Passwort fest:"
+
+#: templates/users/email/password_reset.html:13
+msgid "Set your password"
+msgstr "Passwort festlegen"
 
 #: templates/users/logged_out.html:4 templates/users/login.html:4
 #: templates/users/login.html.py:8
@@ -247,40 +311,10 @@ msgstr ""
 "Ein Link zum Rücksetzen des Passworts wurde an Ihre Email-Adresse gesendet. "
 "Die Nachricht sollte gleich bei Ihnen eintreffen."
 
-#: templates/users/email/account_confirmation.html:5
-msgid "Confirm your Account"
-msgstr "Benutzerzugang bestätigen"
+#~ msgid "Username"
+#~ msgstr "Benutzername"
 
-#: templates/users/email/account_confirmation.html:7
-msgid "Your username is"
-msgstr "Ihr Benutzername lautet"
-
-#: templates/users/email/account_confirmation.html:8
-msgid ""
-"After you have activated your account and set your password you can log in "
-"the system."
-msgstr ""
-"Nachdem der Zugang aktiviert ist und Sie Ihr Passwort vergeben haben können "
-"Sie sich ins System einloggen. "
-
-#: templates/users/email/password_reset.html:5
-msgid "Reset your password"
-msgstr "Passwort zurücksetzen"
-
-#: templates/users/email/password_reset.html:8
-#, python-format
-msgid ""
-"You're receiving this e-mail because you requested a password reset for your "
-"user account at %(site_name)s."
-msgstr ""
-"Sie erhalten diese Email weil Sie ein neues Passwort für Ihren "
-"Benutzerzugang von %(site_name)s vergeben möchten."
-
-#: templates/users/email/password_reset.html:11
-msgid "Please go to the following page and choose a new password:"
-msgstr ""
-"Bitte besuchen die folgende Seite und legen Sie dort ein neues Passwort fest:"
-
-#: templates/users/email/password_reset.html:13
-msgid "Set your password"
-msgstr "Passwort festlegen"
+#~ msgid ""
+#~ "That e-mail address doesn't have an associated user account. Are you sure "
+#~ "you've registered?"
+#~ msgstr "Zu dieser Adresse ist kein Benutzer vorhanden. "
