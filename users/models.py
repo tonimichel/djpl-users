@@ -55,6 +55,10 @@ class AbstractUser(User):
 
         
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}):
+        '''
+        Sends out an account confirm email. Which contains a link to set the user's password.
+        This method is also used for the password_reset mechanism.
+        '''
         conf = self.appconfig
         bcc = settings.ADDITIONALLY_SEND_TO
         
@@ -66,6 +70,7 @@ class AbstractUser(User):
             
         context = {
             'user': self,
+            'password_reset_confirm_url': self.get_account_confirm_link(self.urlnames.password_reset_confirm_urlname),
             'account_confirm_url': self.get_account_confirm_link(self.urlnames.account_confirm_urlname),
             'login_url': self._get_domain() + settings.LOGIN_URL
         }
@@ -80,8 +85,6 @@ class AbstractUser(User):
             context = context
         )
         email.send()
-        self.is_active = True
-        self.save()
         
     
     def _get_domain(self):

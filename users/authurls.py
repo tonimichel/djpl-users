@@ -7,6 +7,7 @@ from users.forms import AuthenticationForm
 from django.contrib.auth.forms import PasswordResetForm
 from django.views.generic import TemplateView
 from django.conf import settings
+from .forms import get_password_reset_form
 
 def _logout(request, **kws):
     return logout(request, **kws)
@@ -94,7 +95,7 @@ def get_patterns(user_model):
                 'template_name': 'users/password_reset.html',
                 'post_reset_redirect': '/%spassword_reset_done/' % conf.URL_PREFIX,
                 'email_template_name': 'users/email/password_reset.html',
-                'password_reset_form': PasswordResetForm,
+                'password_reset_form': get_password_reset_form(URLNAMES.password_reset_confirm_urlname, user_model),
             },
             name=URLNAMES.password_reset_urlname
         ),
@@ -103,7 +104,7 @@ def get_patterns(user_model):
             r'^%spassword_reset_done/$' % conf.URL_PREFIX,
             password_reset_done, {
                 'template_name': 'users/password_reset_done.html',
-                'extra_context': {'login_url': login_url}
+                'extra_context': {'login_url': login_url},
             },
             name=URLNAMES.password_reset_done_urlname
         ),

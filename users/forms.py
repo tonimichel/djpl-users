@@ -34,10 +34,50 @@ def get_user_form(modelclass):
             model = modelclass
             fields = ['email']
     
-    
     return UserForm
 
 
+
+
+
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth import authenticate, get_user_model
+from django.utils.encoding import force_bytes
+from .models import AbstractUser
+
+def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
+
+    class CustomPasswordResetForm(PasswordResetForm):
+       
+        def save(self, domain_override=None,
+                 subject_template_name='registration/password_reset_subject.txt',
+                 email_template_name='registration/password_reset_email.html',
+                 use_https=False, token_generator=default_token_generator,
+                 from_email=None, request=None, html_email_template_name=None):
+            """
+            Generates a one-use only link for resetting password and sends to the
+            user.
+            """
+            from django.core.mail import send_mail
+            UserModel = get_user_model()
+            email = self.cleaned_data["email"]
+            active_users = UserModel._default_manager.filter(
+                email__iexact=email, is_active=True)
+            
+            for user in active_users:
+                # Make sure that no email is sent to a user that actually has
+                # a password marked as unusable
+                if not user.has_usable_password():
+                    continue
+                
+                a = ConcreteUserModel(
+                    username = user.username,
+                    email = user.email
+                )
+                a.confirm_account(template=email_template_name)
+                
+    return CustomPasswordResetForm
 
 
 
