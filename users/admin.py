@@ -23,7 +23,7 @@ class UserAdmin(admin.ModelAdmin):
             'fields': ('first_name', 'last_name')
         }),
         (_('Credentials'), {
-            'fields': ('username', 'email',  'is_active')
+            'fields': ('username', 'email',  'is_active', 'groups')
         }),
     ]
    
