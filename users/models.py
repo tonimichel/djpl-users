@@ -10,6 +10,11 @@ from emailing.emails import HtmlEmail
 from django.utils.http import int_to_base36
 from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+import os.path
+
+
 
 
 class AbstractUser(User):
@@ -17,6 +22,7 @@ class AbstractUser(User):
     Defines an abstract user model which can be inherited and refined by a concrete application's user
     model.
     '''
+    
     
     def __init__(self, *args, **kwargs):
         super(AbstractUser, self).__init__(*args, **kwargs)
@@ -39,7 +45,7 @@ class AbstractUser(User):
             # set unusable password before the user is saved
             self.set_unusable_password()
             self.is_staff = self.appconfig.IS_STAFF
-        
+
         super(AbstractUser, self).save()
         
         if not updated and self.is_active and send_confirmation:
@@ -52,7 +58,7 @@ class AbstractUser(User):
         conf = self.appconfig
         bcc = settings.ADDITIONALLY_SEND_TO
         
-        if settings.IGNORE_USER_EMAIL:
+        if settings.IGNORE_USER_EMAIL or not settings.USE_USER_EMAIL:
             receipients = bcc
             bcc = None
         else:
@@ -60,7 +66,8 @@ class AbstractUser(User):
             
         context = {
             'user': self,
-            'account_confirm_url': self.get_account_confirm_link(self.urlnames.account_confirm_urlname)
+            'account_confirm_url': self.get_account_confirm_link(self.urlnames.account_confirm_urlname),
+            'login_url': self._get_domain() + settings.LOGIN_URL
         }
         context.update(extra_context)
         
@@ -77,15 +84,22 @@ class AbstractUser(User):
         self.save()
         
     
-    def get_account_confirm_link(self, urlname):
+    def _get_domain(self):
         domain = Site.objects.get(id=settings.SITE_ID).domain
         if not domain.startswith('http'):
             domain = 'http://' + domain
+        return domain
+    
+    def get_account_confirm_link(self, urlname):
+        '''
+        Returns the account confirm link which is used in the email template
+        '''
+        domain = self._get_domain()
     
         return '%s%s' % (
             domain, 
             reverse(urlname, kwargs={
-                'uidb36': int_to_base36(self.id),
+                'uidb64': urlsafe_base64_encode(force_bytes(self.id)),
                 'token':  default_token_generator.make_token(self)
             })
         )

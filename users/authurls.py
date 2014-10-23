@@ -3,7 +3,8 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.contrib.auth.views import password_change, password_change_done, password_reset_confirm, password_reset, password_reset_done, password_reset_complete, login, logout
 from django.contrib.auth.views import password_reset_confirm as account_confirm
-from users.forms import get_password_reset_form, AuthenticationForm
+from users.forms import AuthenticationForm
+from django.contrib.auth.forms import PasswordResetForm
 from django.views.generic import TemplateView
 from django.conf import settings
 
@@ -68,7 +69,7 @@ def get_patterns(user_model):
         # account confirmation url, protected by secret token; displayed when the users clicked the account confirm url
         # in its account confirmation email
         url(
-            r'^%saccount_confirm/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
+            r'^%saccount_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             account_confirm, {
                 'template_name': 'users/account_confirm.html',
                 'post_reset_redirect': '/%saccount_confirm_complete/' % conf.URL_PREFIX,
@@ -93,7 +94,7 @@ def get_patterns(user_model):
                 'template_name': 'users/password_reset.html',
                 'post_reset_redirect': '/%spassword_reset_done/' % conf.URL_PREFIX,
                 'email_template_name': 'users/email/password_reset.html',
-                'password_reset_form': get_password_reset_form(URLNAMES.password_reset_confirm_urlname),
+                'password_reset_form': PasswordResetForm,
             },
             name=URLNAMES.password_reset_urlname
         ),
@@ -101,13 +102,14 @@ def get_patterns(user_model):
         url(
             r'^%spassword_reset_done/$' % conf.URL_PREFIX,
             password_reset_done, {
-                'template_name': 'users/password_reset_done.html'
+                'template_name': 'users/password_reset_done.html',
+                'extra_context': {'login_url': login_url}
             },
             name=URLNAMES.password_reset_done_urlname
         ),
         # displays the form where the user can choose its new password
         url(
-            r'^%spassword_reset_confirm/(?P<uidb36>[0-9A-Za-z]{1,13})-(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
+            r'^%spassword_reset_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             password_reset_confirm, {
                 'template_name': 'users/password_reset_confirm.html',
                 'post_reset_redirect': '/%spassword_reset_complete/' % conf.URL_PREFIX,
