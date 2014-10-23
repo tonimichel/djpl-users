@@ -58,7 +58,7 @@ class AbstractUser(User):
         conf = self.appconfig
         bcc = settings.ADDITIONALLY_SEND_TO
         
-        if settings.IGNORE_USER_EMAIL or not settings.USE_USER_EMAIL:
+        if settings.IGNORE_USER_EMAIL:
             receipients = bcc
             bcc = None
         else:
