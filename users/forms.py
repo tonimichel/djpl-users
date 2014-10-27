@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 from django.contrib.auth.tokens import default_token_generator
@@ -71,11 +72,18 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 if not user.has_usable_password():
                     continue
                 
+                # as we also want non users users to reset their password, we always
+                # fake the concrete usermodel object.
                 a = ConcreteUserModel(
                     username = user.username,
-                    email = user.email
+                    email = user.email,
+                    last_login = user.last_login,
+                    id = user.id,
+                    is_active = user.is_active,
+                    password = user.password,
                 )
-                a.confirm_account(template=email_template_name)
+                a.pk = user.id
+                a.confirm_account(template=email_template_name, subject='Passwort zurücksetzen')
                 
     return CustomPasswordResetForm
 

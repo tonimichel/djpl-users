@@ -54,13 +54,14 @@ class AbstractUser(User):
 
 
         
-    def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}):
+    def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}, subject=None):
         '''
         Sends out an account confirm email. Which contains a link to set the user's password.
         This method is also used for the password_reset mechanism.
         '''
         conf = self.appconfig
         bcc = settings.ADDITIONALLY_SEND_TO
+        subject = subject or conf.CONFIRM_EMAIL_SUBJECT
         
         if settings.IGNORE_USER_EMAIL:
             receipients = bcc
@@ -68,10 +69,12 @@ class AbstractUser(User):
         else:
             receipients = [self.email]
             
+        token = default_token_generator.make_token(self)
+            
         context = {
             'user': self,
-            'password_reset_confirm_url': self.get_account_confirm_link(self.urlnames.password_reset_confirm_urlname),
-            'account_confirm_url': self.get_account_confirm_link(self.urlnames.account_confirm_urlname),
+            'password_reset_confirm_url': self.get_confirm_link(self.urlnames.password_reset_confirm_urlname, token),
+            'account_confirm_url': self.get_confirm_link(self.urlnames.account_confirm_urlname, token),
             'login_url': self._get_domain() + settings.LOGIN_URL
         }
         context.update(extra_context)
@@ -80,12 +83,21 @@ class AbstractUser(User):
             from_email = conf.FROM_EMAIL,
             to = receipients,
             bcc = bcc,
-            subject = conf.CONFIRM_EMAIL_SUBJECT,
+            subject = subject,
             template = template,
             context = context
         )
         email.send()
         
+        
+    def get_confirm_link(self, urlname, token):
+        return '%s%s' % (
+            self._get_domain(), 
+            reverse(urlname, kwargs={
+                'uidb64': urlsafe_base64_encode(force_bytes(self.id)),
+                'token':  token
+            })
+        )
     
     def _get_domain(self):
         domain = Site.objects.get(id=settings.SITE_ID).domain
@@ -93,19 +105,6 @@ class AbstractUser(User):
             domain = 'http://' + domain
         return domain
     
-    def get_account_confirm_link(self, urlname):
-        '''
-        Returns the account confirm link which is used in the email template
-        '''
-        domain = self._get_domain()
-    
-        return '%s%s' % (
-            domain, 
-            reverse(urlname, kwargs={
-                'uidb64': urlsafe_base64_encode(force_bytes(self.id)),
-                'token':  default_token_generator.make_token(self)
-            })
-        )
     
         
     def full_name(self):
