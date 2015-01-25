@@ -46,6 +46,7 @@ class AbstractUser(User):
             self.set_unusable_password()
             self.is_staff = self.appconfig.IS_STAFF
 
+        self.username = self.username.lower()
         super(AbstractUser, self).save()
         
         if not updated and self.is_active and send_confirmation:
@@ -70,7 +71,6 @@ class AbstractUser(User):
             receipients = [self.email]
             
         token = default_token_generator.make_token(self)
-            
         context = {
             'user': self,
             'password_reset_confirm_url': self.get_confirm_link(self.urlnames.password_reset_confirm_urlname, token),
