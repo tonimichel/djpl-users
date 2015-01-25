@@ -29,7 +29,7 @@ def get_user_form(modelclass):
         email = forms.EmailField(required=True, label=_('Email'))
         first_name = forms.CharField(required=True, max_length=255, label=_('First name'))
         last_name = forms.CharField(required=True, max_length=255, label=_('Last name'))
-        groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all(), label=_('Groups'))
+        groups = forms.ModelMultipleChoiceField(queryset=Group.objects.all(), label=_('Groups'), required=False)
     
         class Meta:
             model = modelclass
@@ -66,6 +66,7 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
             active_users = UserModel._default_manager.filter(
                 email__iexact=email, is_active=True)
             
+
             for user in active_users:
                 # Make sure that no email is sent to a user that actually has
                 # a password marked as unusable
@@ -85,6 +86,18 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 a.pk = user.id
                 a.confirm_account(template=email_template_name, subject='Passwort zurücksetzen')
                 
+
+        def clean_email(self):
+            UserModel = get_user_model()
+            active_users = UserModel._default_manager.filter(email__iexact=self.cleaned_data['email'], is_active=True)
+
+            if not len(active_users):
+                raise forms.ValidationError('Zu dieser E-Mail-Adresse existiert kein aktiver Account.')
+            else:
+                return self.cleaned_data['email']
+            
+
+
     return CustomPasswordResetForm
 
 
