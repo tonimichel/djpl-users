@@ -6,6 +6,8 @@ def refine_INSTALLED_APPS(original):
     
     
 
+introduce_AUTHENTICATION_BACKENDS = ['users.auth_backend.AuthBackend',]
+
 introduce_IGNORE_USER_EMAIL = True
 introduce_ADDITIONALLY_SEND_TO = []
 introduce_LOGIN_URL = '/login/'
