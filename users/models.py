@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 import os.path
-
+import uuid
 
 
 
@@ -22,22 +22,19 @@ class AbstractUser(User):
     Defines an abstract user model which can be inherited and refined by a concrete application's user
     model.
     '''
-    
-    
+
+    USERNAME_FIELD = 'email'
+
     def __init__(self, *args, **kwargs):
         super(AbstractUser, self).__init__(*args, **kwargs)
-        # make the email field (inherited from User) mandatory
-        self._meta.get_field_by_name('email')[0].null = False
-        self._meta.get_field_by_name('email')[0].blank = False
-        self._meta.get_field_by_name('username')[0].max_length = 300 #FIXME: does not work on syncdb on postgres
 
     class Meta:
         abstract = True
-    
+
     def __unicode__(self):
         return self.username
-    
-        
+
+
     def save(self, send_confirmation=True):
         updated = self.id
 
@@ -45,16 +42,20 @@ class AbstractUser(User):
             # set unusable password before the user is saved
             self.set_unusable_password()
             self.is_staff = self.appconfig.IS_STAFF
+            # in case no username is passed, set a uuid
+
+            if self.username in ('', None):
+                self.username = uuid.uuid4().hex[:30]
 
         self.username = self.username.lower()
         super(AbstractUser, self).save()
-        
+
         if not updated and self.is_active and send_confirmation:
-            # send account confirmation mail after user was saved 
+            # send account confirmation mail after user was saved
             self.confirm_account()
 
 
-        
+
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}, subject=None):
         '''
         Sends out an account confirm email. Which contains a link to set the user's password.
@@ -63,13 +64,13 @@ class AbstractUser(User):
         conf = self.appconfig
         bcc = settings.ADDITIONALLY_SEND_TO
         subject = subject or conf.CONFIRM_EMAIL_SUBJECT
-        
+
         if settings.IGNORE_USER_EMAIL:
             receipients = bcc
             bcc = None
         else:
             receipients = [self.email]
-            
+
         token = default_token_generator.make_token(self)
         context = {
             'user': self,
@@ -78,7 +79,7 @@ class AbstractUser(User):
             'login_url': self._get_domain() + settings.LOGIN_URL
         }
         context.update(extra_context)
-        
+
         email = HtmlEmail(
             from_email = conf.FROM_EMAIL,
             to = receipients,
@@ -88,29 +89,29 @@ class AbstractUser(User):
             context = context
         )
         email.send()
-        
-        
+
+
     def get_confirm_link(self, urlname, token):
         return '%s%s' % (
-            self._get_domain(), 
+            self._get_domain(),
             reverse(urlname, kwargs={
                 'uidb64': urlsafe_base64_encode(force_bytes(self.id)),
                 'token':  token
             })
         )
-    
+
     def _get_domain(self):
         domain = Site.objects.get(id=settings.SITE_ID).domain
         if not domain.startswith('http'):
             domain = 'http://' + domain
         return domain
-    
-    
-        
+
+
+
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
-        
-    
+
+
     def clean(self):
         qs = User.objects.filter(username=self.email)
         if self.id:
@@ -118,9 +119,3 @@ class AbstractUser(User):
             qs = qs.exclude(email=u.email)
         if qs.count() > 0:
             raise ValidationError(_('Ein Benutzer mit dieser Email-Adresse existiert bereits.'))
-    
-       
-    
-    
-
-
