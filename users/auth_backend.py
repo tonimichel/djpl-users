@@ -8,12 +8,20 @@ class AuthBackend(ModelBackend):
 
     def authenticate(self, username=None, password=None):
         '''
-        Ensures case insensitive user names.
+        Ensures case insensitive user names and checks against username and email in order
+        allow email as login credential.
         '''
+
+        user = None
+
         try:
             user = User.objects.get(username__iexact=username)
         except User.DoesNotExist:
-            return None
+            # alternatively check against the email
+            try:
+                user = User.objects.get(email__iexact=username)
+            except User.DoesNotExist:
+                pass
 
-        if user.check_password(password):
+        if user != None and user.check_password(password):
             return user
