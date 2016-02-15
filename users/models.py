@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.core.urlresolvers import reverse
-from django.db import models
+from django.db import models, IntegrityError
+
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as __
 from django.utils.translation import ugettext as _
@@ -36,6 +37,10 @@ class AbstractUser(User):
 
 
     def save(self, send_confirmation=True):
+        """
+        Saves the user instance and sends out a confirmation email on create.
+
+        """
         updated = self.id
 
         if not updated:
@@ -45,7 +50,16 @@ class AbstractUser(User):
             # in case no username is passed, set a uuid
 
             if self.username in ('', None):
+                # set username to a uuid in case it is not set which may happen
+                # if you use self.email as username;
+                # remeber: you now can login with your username (for backwards comp) or with your email (see auth_backend).
                 self.username = uuid.uuid4().hex[:30]
+
+
+        if type(self).objects.filter(email=self.email).exclude(id=self.id).count() > 0:
+            # ensure that the username (self.email) is unique
+            raise IntegrityError('A user with this email (%s) already exists.' % self.email)
+
 
         self.username = self.username.lower()
         super(AbstractUser, self).save()
