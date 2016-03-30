@@ -54,6 +54,7 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
         def save(self, domain_override=None,
                  subject_template_name='registration/password_reset_subject.txt',
                  email_template_name='registration/password_reset_email.html',
+                 extra_email_context=dict(),
                  use_https=False, token_generator=default_token_generator,
                  from_email=None, request=None, html_email_template_name=None):
             """
@@ -73,17 +74,18 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 if not user.has_usable_password():
                     continue
 
-                # as we also want non users users to reset their password, we always
+                # as we also want "non users" auth users to reset their password, we always
                 # fake the concrete usermodel object.
                 a = ConcreteUserModel(
-                    username = user.username,
-                    email = user.email,
-                    last_login = user.last_login,
-                    id = user.id,
-                    is_active = user.is_active,
-                    password = user.password,
+                    username=user.username,
+                    email=user.email,
+                    last_login=user.last_login,
+                    id=user.id,
+                    is_active=user.is_active,
+                    password=user.password,
                 )
                 a.pk = user.id
+
                 a.confirm_account(template=email_template_name, subject='Passwort zurücksetzen')
 
 
