@@ -13,26 +13,26 @@ def _logout(request, **kws):
     return logout(request, **kws)
 
 def get_patterns(user_model):
-  
+
     conf = user_model.appconfig
     URLNAMES = user_model.urlnames
 
     # ensure ending slashes if URL_PREFIX is provided
     if len(conf.URL_PREFIX) > 0 and not conf.URL_PREFIX.endswith('/'):
         conf.URL_PREFIX += '/'
-    
+
     login_url = settings.LOGIN_URL
     if not login_url.startswith('/'):
         login_url = '/' + login_url
-    
+
     login_url_for_pattern = ''.join(login_url[1:])
-    
+
     login_redirect_url = settings.LOGIN_REDIRECT_URL
     logout_view_args = dict(template_name='users/logged_out.html')
     logout_view_args['next_page'] = settings.LOGOUT_REDIRECT_URL
-    
+
     # Registrational urls
-    return patterns('',
+    return [
         url(
             r'^%s$' % login_url_for_pattern,
             login, {
@@ -66,7 +66,7 @@ def get_patterns(user_model):
             password_change_done, {'template_name': 'users/password_change_done.html' },
             name=URLNAMES.password_change_done_urlname
         ),
-        
+
         # account confirmation url, protected by secret token; displayed when the users clicked the account confirm url
         # in its account confirmation email
         url(
@@ -82,11 +82,11 @@ def get_patterns(user_model):
             r'^%saccount_confirm_complete/$' % conf.URL_PREFIX,
             TemplateView.as_view(
                 template_name='users/account_confirm_complete.html',
-            ), 
+            ),
             {'login_url': login_url},
             name=URLNAMES.account_confirm_complete_urlname
         ),
-        
+
         # displays a form that takes a user's email address; when submitted, an email with a password reset url is sent
         # to that user
         url(
@@ -125,5 +125,5 @@ def get_patterns(user_model):
                 'extra_context': {'login_url': login_url}
             },
             name=URLNAMES.password_reset_complete_urlname
-        ),
-    )
+        )
+    ]
