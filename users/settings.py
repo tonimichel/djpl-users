@@ -1,4 +1,4 @@
-
+from django.utils.translation import ugettext_lazy as _
 
 
 def refine_INSTALLED_APPS(original):
@@ -15,4 +15,4 @@ introduce_LOGIN_REDIRECT_URL = '/'
 introduce_LOGOUT_REDIRECT_URL = '/login/'
 
 
-
+introduce_ACCOUNT_CONFIRMATION_EMAIL_SUBJECT = _('Your Account')
