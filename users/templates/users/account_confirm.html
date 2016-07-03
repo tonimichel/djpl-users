@@ -1,28 +1,20 @@
 {% extends "users/base.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
-{% block title %}{% trans 'Activate your Account' %}{% endblock %}
+{% block title %}{% trans "Login" %}{% endblock %}
 
-{% block bodyclass %}account-process{% endblock %}
 
 {% block content %}
     {% if validlink %}
-            <h1>{% trans 'Activate your account and set your password' %}</h1>
+            <h3>{% trans "Activate your account" %}</h3>
 
-            <p>{% trans "Please enter the password twice so we can verify you typed it in correctly." %}</p>
+            <div class="alert alert-info">{% trans "Please enter the password twice so we can verify you typed it in correctly." %}</div>
 
-            <form action="" method="post">{% csrf_token %}
-                <div class="form-row">
-                    {{ form.new_password1.errors }}
-                    <label for="id_new_password1">{% trans 'New password:' %}</label>
-                    {{ form.new_password1 }}
-                </div>
-                <div class="form-row">
-                    {{ form.new_password2.errors }}
-                    <label for="id_new_password2">{% trans 'Confirm password:' %}</label>{{ form.new_password2 }}
-                    
-                    <input type="submit" value="{% trans 'Activate your account' %}" />
-                </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-success"><i class="fa fa-angle-right"></i> {% trans "Set password" %}</button>
             </form>
 
     {% else %}
