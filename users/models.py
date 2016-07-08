@@ -33,7 +33,10 @@ class AbstractUser(User):
         abstract = True
 
     def __unicode__(self):
-        return self.username
+        if self.first_name and self.last_name:
+            return '{first_name} {last_name}'.format(first_name=self.first_name, last_name=self.last_name)
+        else:
+            return self.email
 
 
     def save(self, send_confirmation=True):
