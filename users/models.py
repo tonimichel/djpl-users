@@ -59,11 +59,6 @@ class AbstractUser(User):
                 self.username = uuid.uuid4().hex[:30]
 
 
-        if type(self).objects.filter(email=self.email).exclude(id=self.id).count() > 0:
-            # ensure that the username (self.email) is unique
-            raise IntegrityError('A user with this email (%s) already exists.' % self.email)
-
-
         self.username = self.username.lower()
         super(AbstractUser, self).save()
 
@@ -130,7 +125,7 @@ class AbstractUser(User):
 
 
     def clean(self):
-        qs = User.objects.filter(username=self.email)
+        qs = User.objects.filter(email=self.email)
         if self.id:
             u = User.objects.get(id=self.id)
             qs = qs.exclude(email=u.email)
