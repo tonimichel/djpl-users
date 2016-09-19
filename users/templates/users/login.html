@@ -27,6 +27,7 @@
 
         <button type="submit" class="btn btn-primary " ><i class="fa fa-angle-right"></i> Login</button>
         <a href="{{ password_reset_url }}" class="forgot_password">{% trans "Forgot your password?" %}</a>
+        {% block extralinks %}{% endblock %}
     </form>
 
 

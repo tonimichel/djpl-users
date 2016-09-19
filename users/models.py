@@ -64,10 +64,10 @@ class AbstractUser(User):
                 # remeber: you now can login with your username (for backwards comp) or with your email (see auth_backend).
                 self.username = uuid.uuid4().hex[:30]
 
+
         if User.objects.filter(email=self.email).exclude(id=self.id).count() > 0:
             # ensure that the username (self.email) is unique
             raise IntegrityError('A user with this email (%s) already exists.' % self.email)
-
 
         self.username = self.username.lower()
         super(AbstractUser, self).save()
@@ -136,10 +136,10 @@ class AbstractUser(User):
 
     def clean(self):
         qs = User.objects.filter(username=self.username, email=self.email)
+
         if self.id:
             u = User.objects.get(id=self.id)
             qs = qs.exclude(email=u.email)
 
-
         if qs.count() > 0:
-            raise ValidationError(_('Ein Benutzer mit dieser Email-Adresse existiert bereits.'))
+            raise ValidationError(_('A user with this email (%s) already exists.' % u.email))

@@ -41,7 +41,8 @@ def get_patterns(user_model):
                 'extra_context': {
                     'password_reset_url': '/%spassword_reset/' % conf.URL_PREFIX,
                     'login_url': login_url,
-                    'next': login_redirect_url
+                    'next': login_redirect_url,
+                    'login_view': True
                 }
             },
             name=URLNAMES.login_urlname
