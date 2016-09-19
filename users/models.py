@@ -19,10 +19,10 @@ import uuid
 
 
 class AbstractUser(User):
-    '''
+    """
     Defines an abstract user model which can be inherited and refined by a concrete application's user
     model.
-    '''
+    """
 
     USERNAME_FIELD = 'email'
 
@@ -39,7 +39,7 @@ class AbstractUser(User):
             return self.email
 
 
-    def save(self, send_confirmation=True):
+    def save(self, send_confirmation=True, password=None):
         """
         Saves the user instance and sends out a confirmation email on create.
 
@@ -47,8 +47,14 @@ class AbstractUser(User):
         updated = self.id
 
         if not updated:
-            # set unusable password before the user is saved
-            self.set_unusable_password()
+
+            if not password:
+                # set unusable password before the user is saved in case no password was
+                # passed
+                self.set_unusable_password()
+            else:
+                self.set_password(password)
+
             self.is_staff = self.appconfig.IS_STAFF
             # in case no username is passed, set a uuid
 
@@ -58,8 +64,7 @@ class AbstractUser(User):
                 # remeber: you now can login with your username (for backwards comp) or with your email (see auth_backend).
                 self.username = uuid.uuid4().hex[:30]
 
-
-        if type(self).objects.filter(email=self.email).exclude(id=self.id).count() > 0:
+        if User.objects.filter(email=self.email).exclude(id=self.id).count() > 0:
             # ensure that the username (self.email) is unique
             raise IntegrityError('A user with this email (%s) already exists.' % self.email)
 
@@ -130,9 +135,11 @@ class AbstractUser(User):
 
 
     def clean(self):
-        qs = User.objects.filter(username=self.email)
+        qs = User.objects.filter(username=self.username, email=self.email)
         if self.id:
             u = User.objects.get(id=self.id)
             qs = qs.exclude(email=u.email)
+
+
         if qs.count() > 0:
             raise ValidationError(_('Ein Benutzer mit dieser Email-Adresse existiert bereits.'))
