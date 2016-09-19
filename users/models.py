@@ -130,4 +130,4 @@ class AbstractUser(User):
             u = User.objects.get(id=self.id)
             qs = qs.exclude(email=u.email)
         if qs.count() > 0:
-            raise ValidationError(_('Ein Benutzer mit dieser Email-Adresse existiert bereits.'))
+            raise ValidationError(_('A user with this email (%s) already exists.' % u.email))
