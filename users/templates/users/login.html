@@ -9,6 +9,11 @@
     <form action="" method="post">
         {% csrf_token %}
 
+        {% if form.errors %}
+            <div class="alert-danger">
+                <p style="padding:5px;">{% trans "Username and Password didn't match." %}</p>
+            </div>
+        {% endif %}
 
         <div  class="form-group">
             <div class="input-group">

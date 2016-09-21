@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djpl_users\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-19 06:11-0500\n"
-"PO-Revision-Date: 2016-09-19 13:10+0200\n"
+"POT-Creation-Date: 2016-09-21 07:35-0500\n"
+"PO-Revision-Date: 2016-09-21 14:35+0200\n"
 "Last-Translator: Toni Michel <toni@schnapptack.de>\n"
 "Language-Team: schnapptack <info@schnapptack.de>\n"
 "Language: de\n"
@@ -55,7 +55,7 @@ msgstr ""
 "Sie können Ihren eigenen Benutzer nicht löschen. Deshalb wurde Ihr Benutzer "
 "aus der Auswahl entfernt."
 
-#: forms.py:29 templates/users/login.html:42
+#: forms.py:29 templates/users/login.html:48
 msgid "Email"
 msgstr "Email-Adresse"
 
@@ -71,7 +71,7 @@ msgstr "Nachname"
 msgid "Groups"
 msgstr "Benutzergruppen"
 
-#: models.py:138
+#: models.py:145
 #, python-format
 msgid "A user with this email (%s) already exists."
 msgstr "Ein Benutzer mit dieser Email (%s) existiert bereits."
@@ -155,7 +155,11 @@ msgstr ""
 "Sie erhalten diese Email weil Sie ein neues Passwort für Ihren "
 "Benutzerzugang  vergeben möchten. "
 
-#: templates/users/login.html:29
+#: templates/users/login.html:14
+msgid "Username and Password didn't match."
+msgstr "Benutzername oder Passwort falsch."
+
+#: templates/users/login.html:34
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
