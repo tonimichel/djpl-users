@@ -15,9 +15,10 @@ from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 import os.path
 import uuid
+from django.utils.encoding import python_2_unicode_compatible
 
 
-
+@python_2_unicode_compatible
 class AbstractUser(User):
     """
     Defines an abstract user model which can be inherited and refined by a concrete application's user
@@ -32,7 +33,7 @@ class AbstractUser(User):
     class Meta:
         abstract = True
 
-    def __unicode__(self):
+    def __str__(self):
         if self.first_name and self.last_name:
             return '{first_name} {last_name}'.format(first_name=self.first_name, last_name=self.last_name)
         else:
@@ -64,8 +65,8 @@ class AbstractUser(User):
                 # remeber: you now can login with your username (for backwards comp) or with your email (see auth_backend).
                 self.username = uuid.uuid4().hex[:30]
 
-
-        if User.objects.filter(email=self.email).exclude(id=self.id).count() > 0:
+        existing_users = User.objects.filter(email=self.email).exclude(id=self.id)
+        if existing_users.count() > 0:
             # ensure that the username (self.email) is unique
             raise IntegrityError('A user with this email (%s) already exists.' % self.email)
 
@@ -77,12 +78,31 @@ class AbstractUser(User):
             self.confirm_account()
 
 
+    def clean(self):
+        """
+        Ensure that this instance does not violate our email unique constraint.
+        :return:
+        """
+        qs = User.objects.filter(email=self.email)
+
+        if self.id:
+            # exclude this instance in case of update.
+            qs = qs.exclude(email=self.email)
+
+        if qs.count() > 0:
+            raise ValidationError(_('A user with this email (%s) already exists.' % self.email))
+
 
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}, subject=None):
-        '''
+        """
         Sends out an account confirm email. Which contains a link to set the user's password.
         This method is also used for the password_reset mechanism.
-        '''
+        :param template:
+        :param extra_context:
+        :param subject:
+        :return:
+        """
+
         conf = self.appconfig
         bcc = settings.ADDITIONALLY_SEND_TO
         subject = subject or conf.CONFIRM_EMAIL_SUBJECT
@@ -134,12 +154,3 @@ class AbstractUser(User):
         return '%s %s' % (self.first_name, self.last_name)
 
 
-    def clean(self):
-        qs = User.objects.filter(username=self.username, email=self.email)
-
-        if self.id:
-            u = User.objects.get(id=self.id)
-            qs = qs.exclude(email=u.email)
-
-        if qs.count() > 0:
-            raise ValidationError(_('A user with this email (%s) already exists.' % u.email))
