@@ -3,12 +3,13 @@
 
 
 {% block header %}
-    <h1>{% trans "Welcome on board" %}</h1>
+
 {% endblock %}
 
 
 
 {% block content %}
+    <h1>{% blocktrans with first_name=user.first_name last_name=user.last_name %}Welcome on board {{ first_name }} {{ last_name }}{% endblocktrans %}</h1>
 
     <h3>{% trans "Click the following link and set your password" %}</h3>
 
@@ -16,12 +17,11 @@
     {% include "emailing/btn.html" with href=account_confirm_url label="Activate your account" %}
 
 
-    <h3>
-        {% blocktrans %}
-        Then, <a href="{{ login_url }}" >log in</a> with your username
-        {% endblocktrans %} <b>{{ user.get_username }}</b>
-    </h3>
-
+    <p>
+        {% blocktrans with username=user.get_username %}
+        Then, <a href="{{ login_url }}" >log in</a> with your username <b>{{ username }}</b>
+        {% endblocktrans %}
+    </p>
 
 
 

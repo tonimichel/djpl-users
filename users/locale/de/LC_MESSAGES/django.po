@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djpl_users\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-21 07:35-0500\n"
-"PO-Revision-Date: 2016-09-21 14:35+0200\n"
+"POT-Creation-Date: 2016-09-22 09:00-0500\n"
+"PO-Revision-Date: 2016-09-22 16:00+0200\n"
 "Last-Translator: Toni Michel <toni@schnapptack.de>\n"
 "Language-Team: schnapptack <info@schnapptack.de>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin.py:22
@@ -71,7 +71,7 @@ msgstr "Nachname"
 msgid "Groups"
 msgstr "Benutzergruppen"
 
-#: models.py:145
+#: models.py:93
 #, python-format
 msgid "A user with this email (%s) already exists."
 msgstr "Ein Benutzer mit dieser Email (%s) existiert bereits."
@@ -122,15 +122,16 @@ msgstr "Ihr Benutzerzugang wurde erfolgreich aktiviert"
 msgid "Login now"
 msgstr "Login"
 
-#: templates/users/email/account_confirmation.html:6
+#: templates/users/email/_account_confirmation.html:6
 msgid "Welcome on board"
 msgstr "Willkommen"
 
-#: templates/users/email/account_confirmation.html:13
+#: templates/users/email/_account_confirmation.html:14
+#: templates/users/email/account_confirmation.html:14
 msgid "Click the following link and set your password"
 msgstr "Benutzerzugang aktivieren und Passwort vergeben "
 
-#: templates/users/email/account_confirmation.html:20
+#: templates/users/email/_account_confirmation.html:21
 #, python-format
 msgid ""
 "\n"
@@ -140,6 +141,24 @@ msgstr ""
 "\n"
 "      <a href=\"%(login_url)s\" >Melden</a> Sie sich mit Ihrem Nutzernamen "
 "an.\n"
+"       "
+
+#: templates/users/email/account_confirmation.html:12
+#, python-format
+msgid "Welcome on board %(first_name)s %(last_name)s"
+msgstr "Willkommen %(first_name)s %(last_name)s"
+
+#: templates/users/email/account_confirmation.html:21
+#, python-format
+msgid ""
+"\n"
+"        Then, <a href=\"%(login_url)s\" >log in</a> with your username <b>"
+"%(username)s</b>\n"
+"        "
+msgstr ""
+"\n"
+"     Nachdem Sie Ihren Account aktiviert haben, <a href=\"%(login_url)s\" "
+">melden</a> Sie sich mit Ihrem Nutzernamen <b>%(username)s</b> an.\n"
 "       "
 
 #: templates/users/email/password_reset.html:6
