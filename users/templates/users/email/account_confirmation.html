@@ -13,8 +13,8 @@
 
     <h3>{% trans "Click the following link and set your password" %}</h3>
 
-
-    {% include "emailing/btn.html" with href=account_confirm_url label="Activate your account" %}
+    {% trans "Activate your account" as label %}
+    {% include "emailing/btn.html" with href=account_confirm_url label=label %}
 
 
     <p>

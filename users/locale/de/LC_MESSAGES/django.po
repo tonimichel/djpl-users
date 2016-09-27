@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djpl_users\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-22 09:00-0500\n"
-"PO-Revision-Date: 2016-09-22 16:00+0200\n"
+"POT-Creation-Date: 2016-09-27 13:10+0200\n"
+"PO-Revision-Date: 2016-09-27 13:10+0200\n"
 "Last-Translator: Toni Michel <toni@schnapptack.de>\n"
 "Language-Team: schnapptack <info@schnapptack.de>\n"
 "Language: de\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.9\n"
+"X-Generator: Poedit 1.8.7.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: admin.py:22
@@ -90,6 +90,7 @@ msgid "Login"
 msgstr "Login"
 
 #: templates/users/account_confirm.html:10
+#: templates/users/email/account_confirmation.html:16
 msgid "Activate your account"
 msgstr "Benutzerzugang aktivieren"
 
@@ -101,7 +102,7 @@ msgstr ""
 
 #: templates/users/account_confirm.html:17
 msgid "Set password"
-msgstr "Neues Passwort"
+msgstr "Passwort setzen"
 
 #: templates/users/account_confirm.html:21
 msgid "Account activation unsuccessful"
@@ -166,7 +167,7 @@ msgstr ""
 msgid "Reset your password"
 msgstr "Passwort zurücksetzen"
 
-#: templates/users/email/password_reset.html:14
+#: templates/users/email/password_reset.html:8
 msgid ""
 "You are receiving this email because you have requested to reset your "
 "password."
