@@ -1,4 +1,4 @@
-from django.conf.urls import url, patterns
+from django.conf.urls import url
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.contrib.auth.views import password_change, password_change_done, password_reset_confirm, password_reset, password_reset_done, password_reset_complete, login, logout

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.contrib import admin
-from django.conf.urls import url, patterns, include
+from django.conf.urls import url, include
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy as __
 from users.forms import get_user_form
