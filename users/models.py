@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
-from django.db import models, IntegrityError
-
+from django.db import IntegrityError
 from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as __
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from django.contrib.sites.models import Site
 from emailing.emails import HtmlEmail
-from django.utils.http import int_to_base36
 from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
-import os.path
 import uuid
 from django.utils.encoding import python_2_unicode_compatible
 
@@ -40,7 +36,6 @@ class AbstractUser(User):
         else:
             return self.email
 
-
     def save(self, send_confirmation=True, password=None):
         """
         Saves the user instance and sends out a confirmation email on create.
@@ -63,7 +58,8 @@ class AbstractUser(User):
             if self.username in ('', None):
                 # set username to a uuid in case it is not set which may happen
                 # if you use self.email as username;
-                # remeber: you now can login with your username (for backwards comp) or with your email (see auth_backend).
+                # remeber: you now can login with your username (for backwards comp)
+                # or with your email (see auth_backend).
                 self.username = uuid.uuid4().hex[:30]
 
         existing_users = User.objects.filter(email=self.email).exclude(id=self.id)
@@ -78,7 +74,6 @@ class AbstractUser(User):
             # send account confirmation mail after user was saved
             self.confirm_account()
 
-
     def clean(self):
         """
         Ensure that this instance does not violate our email unique constraint.
@@ -92,7 +87,6 @@ class AbstractUser(User):
 
         if qs.count() > 0:
             raise ValidationError(_('A user with this email (%s) already exists.' % self.email))
-
 
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}, subject=None):
         """
@@ -124,15 +118,14 @@ class AbstractUser(User):
         context.update(extra_context)
 
         email = HtmlEmail(
-            from_email = conf.FROM_EMAIL,
-            to = receipients,
-            bcc = bcc,
-            subject = subject,
-            template = template,
-            context = context
+            from_email=conf.FROM_EMAIL,
+            to=receipients,
+            bcc=bcc,
+            subject=subject,
+            template=template,
+            context=context
         )
         email.send()
-
 
     def get_confirm_link(self, urlname, token):
         return '%s%s' % (
@@ -148,8 +141,6 @@ class AbstractUser(User):
         if not domain.startswith('http'):
             domain = 'http://' + domain
         return domain
-
-
 
     def full_name(self):
         return '%s %s' % (self.first_name, self.last_name)

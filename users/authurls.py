@@ -1,16 +1,17 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from django.conf.urls import url
-from django.core.urlresolvers import reverse
-from django.utils.translation import ugettext as _
 from django.contrib.auth.views import password_change, password_change_done, password_reset_confirm, password_reset, password_reset_done, password_reset_complete, login, logout
-from django.contrib.auth.views import password_reset_confirm as account_confirm
+from .views import password_reset_confirm as account_confirm
 from users.forms import AuthenticationForm
-from django.contrib.auth.forms import PasswordResetForm
 from django.views.generic import TemplateView
 from django.conf import settings
 from .forms import get_password_reset_form
 
+
 def _logout(request, **kws):
     return logout(request, **kws)
+
 
 def get_patterns(user_model):
 
@@ -31,7 +32,7 @@ def get_patterns(user_model):
     logout_view_args = dict(template_name='users/logged_out.html')
     logout_view_args['next_page'] = settings.LOGOUT_REDIRECT_URL
 
-    # Registrational urls
+    # Registration urls
     return [
         url(
             r'^%s$' % login_url_for_pattern,
@@ -74,7 +75,8 @@ def get_patterns(user_model):
             r'^%saccount_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             account_confirm, {
                 'template_name': 'users/account_confirm.html',
-                'post_reset_redirect': '/%saccount_confirm_complete/' % conf.URL_PREFIX,
+                # after the account confirmation, the user gets redirected to the url defined in the settings
+                'post_reset_redirect': settings.ACCOUNT_CONFIRM_REDIRECT_URL or '/%saccount_confirm_complete/' % conf.URL_PREFIX,
             },
             name=URLNAMES.account_confirm_urlname
         ),
