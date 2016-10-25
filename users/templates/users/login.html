@@ -10,8 +10,11 @@
         {% csrf_token %}
 
         {% if form.errors %}
-            <div class="alert-danger">
-                <p style="padding:5px;">{% trans "Username and Password didn't match." %}</p>
+            <div class="alert alert-danger">
+
+               {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
             </div>
         {% endif %}
 
