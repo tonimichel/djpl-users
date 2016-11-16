@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djpl_users\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-27 13:14+0200\n"
-"PO-Revision-Date: 2016-09-27 13:10+0200\n"
+"POT-Creation-Date: 2016-11-16 06:20-0600\n"
+"PO-Revision-Date: 2016-11-16 13:20+0100\n"
 "Last-Translator: Toni Michel <toni@schnapptack.de>\n"
 "Language-Team: schnapptack <info@schnapptack.de>\n"
 "Language: de\n"
@@ -16,123 +16,124 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.9\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: admin.py:22
+#: users/admin.py:22
 msgid "User data"
 msgstr "Benutzerdaten"
 
-#: admin.py:25
+#: users/admin.py:25
 msgid "Credentials"
 msgstr "Anmeldedaten"
 
-#: admin.py:36
+#: users/admin.py:36
 msgid "Mark selected users as active"
 msgstr "Gewählte Nutzer auf inaktiv setzen"
 
-#: admin.py:40
+#: users/admin.py:40
 msgid "Mark selected users as inactive"
 msgstr "Gewählte Nutzer auf aktiv setzen"
 
-#: admin.py:46
+#: users/admin.py:46
 #, python-format
 msgid "Account confirmation email sent out for %s user(s)"
 msgstr "Aktivierungsemail per Email an Benutzer %s senden"
 
-#: admin.py:52
+#: users/admin.py:52
 #, python-format
 msgid "We just sent out a confirmation email to %s"
 msgstr "Aktivierungsemail per Email an Benutzer %s gesendet"
 
-#: admin.py:64 admin.py:86 admin.py:109
+#: users/admin.py:64 users/admin.py:86 users/admin.py:109
 msgid "You cannot delete yourself!"
 msgstr "Sie können Ihren eigenen Benutzer nicht löschen!"
 
-#: admin.py:83
+#: users/admin.py:83
 msgid "You cannot delete yourself! Removed you from selection."
 msgstr ""
 "Sie können Ihren eigenen Benutzer nicht löschen. Deshalb wurde Ihr Benutzer "
 "aus der Auswahl entfernt."
 
-#: forms.py:29 templates/users/login.html:48
+#: users/forms.py:29 users/templates/users/login.html:48
 msgid "Email"
 msgstr "Email-Adresse"
 
-#: forms.py:30
+#: users/forms.py:30
 msgid "First name"
 msgstr "Vorname"
 
-#: forms.py:31
+#: users/forms.py:31
 msgid "Last name"
 msgstr "Nachname"
 
-#: forms.py:32
+#: users/forms.py:32
 msgid "Groups"
 msgstr "Benutzergruppen"
 
-#: models.py:94
+#: users/models.py:94
 #, python-format
 msgid "A user with this email (%s) already exists."
 msgstr "Ein Benutzer mit dieser Email (%s) existiert bereits."
 
-#: settings.py:18
+#: users/settings.py:18
 msgid "Your Account"
 msgstr "Benutzerzugang bestätigen"
 
-#: templates/users/account_confirm.html:5
-#: templates/users/account_confirm_complete.html:4 templates/users/login.html:4
-#: templates/users/password_reset.html:4
-#: templates/users/password_reset_complete.html:4
-#: templates/users/password_reset_confirm.html:4
-#: templates/users/password_reset_done.html:4
+#: users/templates/users/account_confirm.html:5
+#: users/templates/users/account_confirm_complete.html:4
+#: users/templates/users/login.html:4
+#: users/templates/users/password_reset.html:4
+#: users/templates/users/password_reset_complete.html:4
+#: users/templates/users/password_reset_confirm.html:4
+#: users/templates/users/password_reset_done.html:4
 msgid "Login"
 msgstr "Login"
 
-#: templates/users/account_confirm.html:10
-#: templates/users/email/account_confirmation.html:16
+#: users/templates/users/account_confirm.html:10
+#: users/templates/users/email/account_confirmation.html:16
 msgid "Activate your account"
 msgstr "Benutzerzugang aktivieren"
 
-#: templates/users/account_confirm.html:12
+#: users/templates/users/account_confirm.html:12
 msgid ""
 "Please enter the password twice so we can verify you typed it in correctly."
 msgstr ""
 "Bitte geben Sie das Passwort zwei mal ein, um Tippfehler auszuschließen."
 
-#: templates/users/account_confirm.html:17
+#: users/templates/users/account_confirm.html:17
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: templates/users/account_confirm.html:21
+#: users/templates/users/account_confirm.html:21
 msgid "Account activation unsuccessful"
 msgstr "Aktivierung des Benutzerzugangs fehlgeschlagen "
 
-#: templates/users/account_confirm.html:22
+#: users/templates/users/account_confirm.html:22
 msgid ""
 "The Account activation link was invalid, possibly because it has already "
 "been used."
 msgstr ""
 "Der Aktivierungslink war ungültig, evtl. weil er bereits benutzt wurde."
 
-#: templates/users/account_confirm_complete.html:9
+#: users/templates/users/account_confirm_complete.html:9
 msgid "Your account has been successfuly confirmed"
 msgstr "Ihr Benutzerzugang wurde erfolgreich aktiviert"
 
-#: templates/users/account_confirm_complete.html:11
+#: users/templates/users/account_confirm_complete.html:11
 msgid "Login now"
 msgstr "Login"
 
-#: templates/users/email/_account_confirmation.html:6
+#: users/templates/users/email/_account_confirmation.html:6
 msgid "Welcome on board"
 msgstr "Willkommen"
 
-#: templates/users/email/_account_confirmation.html:14
-#: templates/users/email/account_confirmation.html:14
+#: users/templates/users/email/_account_confirmation.html:14
+#: users/templates/users/email/account_confirmation.html:14
 msgid "Click the following link and set your password"
 msgstr "Benutzerzugang aktivieren und Passwort vergeben "
 
-#: templates/users/email/_account_confirmation.html:21
+#: users/templates/users/email/_account_confirmation.html:21
 #, python-format
 msgid ""
 "\n"
@@ -144,12 +145,12 @@ msgstr ""
 "an.\n"
 "       "
 
-#: templates/users/email/account_confirmation.html:12
+#: users/templates/users/email/account_confirmation.html:12
 #, python-format
 msgid "Welcome on board %(first_name)s %(last_name)s"
 msgstr "Willkommen %(first_name)s %(last_name)s"
 
-#: templates/users/email/account_confirmation.html:21
+#: users/templates/users/email/account_confirmation.html:21
 #, python-format
 msgid ""
 "\n"
@@ -162,12 +163,12 @@ msgstr ""
 ">melden</a> Sie sich mit Ihrem Nutzernamen <b>%(username)s</b> an.\n"
 "       "
 
-#: templates/users/email/password_reset.html:6
-#: templates/users/password_reset_confirm.html:11
+#: users/templates/users/email/password_reset.html:5
+#: users/templates/users/password_reset_confirm.html:11
 msgid "Reset your password"
 msgstr "Passwort zurücksetzen"
 
-#: templates/users/email/password_reset.html:8
+#: users/templates/users/email/password_reset.html:6
 msgid ""
 "You are receiving this email because you have requested to reset your "
 "password."
@@ -175,19 +176,23 @@ msgstr ""
 "Sie erhalten diese Email weil Sie ein neues Passwort für Ihren "
 "Benutzerzugang  vergeben möchten. "
 
-#: templates/users/login.html:14
+#: users/templates/users/email/password_reset.html:7
+msgid "Set new password"
+msgstr "Neues Passwort setzen"
+
+#: users/templates/users/login.html:14
 msgid "Username and Password didn't match."
 msgstr "Benutzername oder Passwort falsch."
 
-#: templates/users/login.html:34
+#: users/templates/users/login.html:34
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/users/password_reset.html:9
+#: users/templates/users/password_reset.html:9
 msgid "Password reset"
 msgstr "Passwort zurücksetzen"
 
-#: templates/users/password_reset.html:12
+#: users/templates/users/password_reset.html:12
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll e-mail "
 "instructions for setting a new one."
@@ -195,38 +200,38 @@ msgstr ""
 "Passwort vergessen? Geben Sie bitte Ihre Email-Adresse ein. Wir senden Ihnen "
 "eine Email, um ein neues Passwort zu vergeben."
 
-#: templates/users/password_reset.html:17
+#: users/templates/users/password_reset.html:17
 msgid "Reset password"
 msgstr "Passwort zurücksetzen "
 
-#: templates/users/password_reset_complete.html:11
+#: users/templates/users/password_reset_complete.html:11
 msgid "Password reset complete"
 msgstr "Passwort zurückgesetzt."
 
-#: templates/users/password_reset_complete.html:13
+#: users/templates/users/password_reset_complete.html:13
 msgid "Your password has been set.  You may go ahead and log in now."
 msgstr "Das Passwort wurde gesetzt. Sie können sich nun damit anmelden."
 
-#: templates/users/password_reset_complete.html:15
+#: users/templates/users/password_reset_complete.html:15
 msgid "Log in"
 msgstr "Anmelden"
 
-#: templates/users/password_reset_confirm.html:13
+#: users/templates/users/password_reset_confirm.html:13
 msgid ""
 "Please enter your new password twice so we can verify you typed it in "
 "correctly."
 msgstr ""
 "Bitte geben Sie Ihr neues Passwort zwei mal an, um Tippfehler auszuschließen."
 
-#: templates/users/password_reset_confirm.html:18
+#: users/templates/users/password_reset_confirm.html:18
 msgid "Reset my password"
 msgstr "Passwort zurücksetzen"
 
-#: templates/users/password_reset_confirm.html:24
+#: users/templates/users/password_reset_confirm.html:24
 msgid "Password reset unsuccessful"
 msgstr "Passwort zurücksetzen fehlgeschlagen."
 
-#: templates/users/password_reset_confirm.html:27
+#: users/templates/users/password_reset_confirm.html:27
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a new password reset."
@@ -234,11 +239,11 @@ msgstr ""
 "Der Link zum Rücksetzen des Passworts ist ungültig, evtl. weil er bereits "
 "benutzt wurde. Bitte fordern Sie einen neuen Link an."
 
-#: templates/users/password_reset_done.html:9
+#: users/templates/users/password_reset_done.html:9
 msgid "You've got mail"
 msgstr "Sie haben eine neue Email."
 
-#: templates/users/password_reset_done.html:11
+#: users/templates/users/password_reset_done.html:11
 msgid ""
 "We've e-mailed you instructions for setting your password to the e-mail "
 "address you submitted. You should be receiving it shortly."
