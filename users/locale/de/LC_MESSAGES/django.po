@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djpl_users\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-16 06:20-0600\n"
+"POT-Creation-Date: 2016-11-17 15:48+0100\n"
 "PO-Revision-Date: 2016-11-16 13:20+0100\n"
 "Last-Translator: Toni Michel <toni@schnapptack.de>\n"
 "Language-Team: schnapptack <info@schnapptack.de>\n"
@@ -19,59 +19,59 @@ msgstr ""
 "X-Generator: Poedit 1.8.9\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: users/admin.py:22
+#: users/admin.py:21
 msgid "User data"
 msgstr "Benutzerdaten"
 
-#: users/admin.py:25
+#: users/admin.py:24
 msgid "Credentials"
 msgstr "Anmeldedaten"
 
-#: users/admin.py:36
+#: users/admin.py:34
 msgid "Mark selected users as active"
 msgstr "Gewählte Nutzer auf inaktiv setzen"
 
-#: users/admin.py:40
+#: users/admin.py:38
 msgid "Mark selected users as inactive"
 msgstr "Gewählte Nutzer auf aktiv setzen"
 
-#: users/admin.py:46
+#: users/admin.py:44
 #, python-format
 msgid "Account confirmation email sent out for %s user(s)"
 msgstr "Aktivierungsemail per Email an Benutzer %s senden"
 
-#: users/admin.py:52
+#: users/admin.py:49
 #, python-format
 msgid "We just sent out a confirmation email to %s"
 msgstr "Aktivierungsemail per Email an Benutzer %s gesendet"
 
-#: users/admin.py:64 users/admin.py:86 users/admin.py:109
+#: users/admin.py:63 users/admin.py:88 users/admin.py:116
 msgid "You cannot delete yourself!"
 msgstr "Sie können Ihren eigenen Benutzer nicht löschen!"
 
-#: users/admin.py:83
+#: users/admin.py:85
 msgid "You cannot delete yourself! Removed you from selection."
 msgstr ""
 "Sie können Ihren eigenen Benutzer nicht löschen. Deshalb wurde Ihr Benutzer "
 "aus der Auswahl entfernt."
 
-#: users/forms.py:29 users/templates/users/login.html:48
+#: users/forms.py:24 users/templates/users/login.html:51
 msgid "Email"
 msgstr "Email-Adresse"
 
-#: users/forms.py:30
+#: users/forms.py:25
 msgid "First name"
 msgstr "Vorname"
 
-#: users/forms.py:31
+#: users/forms.py:26
 msgid "Last name"
 msgstr "Nachname"
 
-#: users/forms.py:32
+#: users/forms.py:27
 msgid "Groups"
 msgstr "Benutzergruppen"
 
-#: users/models.py:94
+#: users/models.py:89
 #, python-format
 msgid "A user with this email (%s) already exists."
 msgstr "Ein Benutzer mit dieser Email (%s) existiert bereits."
@@ -95,21 +95,21 @@ msgstr "Login"
 msgid "Activate your account"
 msgstr "Benutzerzugang aktivieren"
 
-#: users/templates/users/account_confirm.html:12
+#: users/templates/users/account_confirm.html:14
 msgid ""
 "Please enter the password twice so we can verify you typed it in correctly."
 msgstr ""
 "Bitte geben Sie das Passwort zwei mal ein, um Tippfehler auszuschließen."
 
-#: users/templates/users/account_confirm.html:17
+#: users/templates/users/account_confirm.html:19
 msgid "Set password"
 msgstr "Passwort setzen"
 
-#: users/templates/users/account_confirm.html:21
+#: users/templates/users/account_confirm.html:23
 msgid "Account activation unsuccessful"
 msgstr "Aktivierung des Benutzerzugangs fehlgeschlagen "
 
-#: users/templates/users/account_confirm.html:22
+#: users/templates/users/account_confirm.html:24
 msgid ""
 "The Account activation link was invalid, possibly because it has already "
 "been used."
@@ -180,11 +180,7 @@ msgstr ""
 msgid "Set new password"
 msgstr "Neues Passwort setzen"
 
-#: users/templates/users/login.html:14
-msgid "Username and Password didn't match."
-msgstr "Benutzername oder Passwort falsch."
-
-#: users/templates/users/login.html:34
+#: users/templates/users/login.html:37
 msgid "Forgot your password?"
 msgstr "Passwort vergessen?"
 
@@ -227,7 +223,7 @@ msgstr ""
 msgid "Reset my password"
 msgstr "Passwort zurücksetzen"
 
-#: users/templates/users/password_reset_confirm.html:24
+#: users/templates/users/password_reset_confirm.html:24 users/views.py:89
 msgid "Password reset unsuccessful"
 msgstr "Passwort zurücksetzen fehlgeschlagen."
 
@@ -250,6 +246,13 @@ msgid ""
 msgstr ""
 "Ein Link zum Rücksetzen des Passworts wurde an Ihre Email-Adresse gesendet. "
 "Die Nachricht sollte gleich bei Ihnen eintreffen."
+
+#: users/views.py:76
+msgid "Enter new password"
+msgstr "Neues Passwort eingeben"
+
+#~ msgid "Username and Password didn't match."
+#~ msgstr "Benutzername oder Passwort falsch."
 
 #~ msgid "Activate your Account"
 #~ msgstr "Benutzerzugang aktivieren"
@@ -328,9 +331,6 @@ msgstr ""
 
 #~ msgid "E-mail address:"
 #~ msgstr "Email-Adresse:"
-
-#~ msgid "Enter new password"
-#~ msgstr "Neues Passwort eingeben"
 
 #~ msgid "Password reset successful"
 #~ msgstr "Passwort erfolgreich zurückgesetzt"
