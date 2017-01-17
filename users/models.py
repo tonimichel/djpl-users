@@ -116,7 +116,6 @@ class AbstractUser(User):
             'login_url': self._get_domain() + settings.LOGIN_URL
         }
         context.update(extra_context)
-
         email = HtmlEmail(
             from_email=conf.FROM_EMAIL,
             to=receipients,

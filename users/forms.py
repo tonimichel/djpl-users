@@ -53,11 +53,6 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 email__iexact=email, is_active=True)
 
             for user in active_users:
-                # Make sure that no email is sent to a user that actually has
-                # a password marked as unusable
-                if not user.has_usable_password():
-                    continue
-
                 # as we also want "non users" auth users to reset their password, we always
                 # fake the concrete usermodel object.
                 a = ConcreteUserModel(
@@ -70,7 +65,14 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 )
                 a.pk = user.id
 
-                a.confirm_account(template=email_template_name, subject='Passwort zurücksetzen')
+                # Make sure that no email is sent to a user that actually has
+                # a password marked as unusable
+                if not user.has_usable_password():
+                    # send account activation email as the user obviously did not confirm his account yet
+                    a.confirm_account(subject=_('Please activate your account and set your password'))
+                else:
+                    # send password reset
+                    a.confirm_account(template=email_template_name, subject=_('Reset password'))
 
         def clean_email(self):
             UserModel = get_user_model()
