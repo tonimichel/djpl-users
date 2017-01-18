@@ -56,6 +56,8 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 # as we also want "non users" auth users to reset their password, we always
                 # fake the concrete usermodel object.
                 a = ConcreteUserModel(
+                    first_name=user.first_name,
+                    last_name=user.last_name,
                     username=user.username,
                     email=user.email,
                     last_login=user.last_login,
