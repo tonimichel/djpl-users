@@ -20,9 +20,9 @@ class AbstractUser(User):
     def __init__(self, *args, **kwargs):
         super(AbstractUser, self).__init__(*args, **kwargs)
         # make the email field (inherited from User) mandatory
-        self._meta.get_field_by_name('email')[0].null = False
-        self._meta.get_field_by_name('email')[0].blank = False
-        self._meta.get_field_by_name('username')[0].max_length = 300  # FIXME: does not work on syncdb on postgres
+        self._meta.get_field('email').null = False
+        self._meta.get_field('email').blank = False
+        self._meta.get_field('username').max_length = 300
 
     class Meta:
         abstract = True
