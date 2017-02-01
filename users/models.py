@@ -36,10 +36,14 @@ class AbstractUser(User):
         else:
             return self.email
 
-    def save(self, send_confirmation=True, password=None):
+    def save(self, send_confirmation=True, password=None, *args, **kw):
         """
         Saves the user instance and sends out a confirmation email on create.
-
+        :param send_confirmation: boolean
+        :param password: string
+        :param args: list
+        :param kw: dict
+        :return: None
         """
         updated = self.id
 
@@ -68,7 +72,7 @@ class AbstractUser(User):
             raise IntegrityError('A user with this email (%s) already exists.' % self.email)
 
         self.username = self.username.lower()
-        super(AbstractUser, self).save()
+        super(AbstractUser, self).save(*args, **kw)
 
         if not updated and self.is_active and send_confirmation:
             # send account confirmation mail after user was saved
