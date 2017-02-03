@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from __future__ import unicode_literals, print_function
 from django.core.urlresolvers import reverse
 from django.db import IntegrityError
 from django.contrib.auth.models import User
@@ -140,12 +140,20 @@ class AbstractUser(User):
         )
 
     def _get_domain(self):
+        """
+        Returns the domain from the Site model and prepends http.
+        :return:
+        """
         domain = Site.objects.get(id=settings.SITE_ID).domain
         if not domain.startswith('http'):
             domain = 'http://' + domain
         return domain
 
     def full_name(self):
+        """
+        Returns the full name of the user
+        :return: string
+        """
         return '%s %s' % (self.first_name, self.last_name)
 
 
