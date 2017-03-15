@@ -66,10 +66,10 @@ class AbstractUser(User):
                 # or with your email (see auth_backend).
                 self.username = uuid.uuid4().hex[:30]
 
-        existing_users = User.objects.filter(email=self.email).exclude(id=self.id)
+        existing_users = User.objects.filter(email__iexact=self.email).exclude(id=self.id)
         if existing_users.count() > 0:
             # ensure that the username (self.email) is unique
-            raise IntegrityError('A user with this email (%s) already exists.' % self.email)
+            raise IntegrityError('A user with this email (%s) already exists.' % self.email.lower())
 
         self.username = self.username.lower()
         super(AbstractUser, self).save(*args, **kw)
@@ -83,14 +83,14 @@ class AbstractUser(User):
         Ensure that this instance does not violate our email unique constraint.
         :return:
         """
-        qs = User.objects.filter(email=self.email)
+        qs = User.objects.filter(email__iexact=self.email)
 
         if self.id:
             # exclude this instance in case of update.
-            qs = qs.exclude(email=self.email)
+            qs = qs.exclude(email__iexact=self.email)
 
         if qs.count() > 0:
-            raise ValidationError(_('A user with this email (%s) already exists.' % self.email))
+            raise ValidationError(_('A user with this email (%s) already exists.' % self.email.lower()))
 
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}, subject=None):
         """
@@ -107,10 +107,10 @@ class AbstractUser(User):
         subject = subject or conf.CONFIRM_EMAIL_SUBJECT
 
         if settings.IGNORE_USER_EMAIL:
-            receipients = bcc
+            recipients = bcc
             bcc = None
         else:
-            receipients = [self.email]
+            recipients = [self.email]
 
         token = default_token_generator.make_token(self)
         context = {
@@ -122,7 +122,7 @@ class AbstractUser(User):
         context.update(extra_context)
         email = HtmlEmail(
             from_email=conf.FROM_EMAIL,
-            to=receipients,
+            to=recipients,
             bcc=bcc,
             subject=subject,
             template=template,
