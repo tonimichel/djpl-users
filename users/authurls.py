@@ -86,7 +86,10 @@ def get_patterns(user_model):
             TemplateView.as_view(
                 template_name='users/account_confirm_complete.html',
             ),
-            {'login_url': login_url},
+            dict(
+                login_redirect_url=login_redirect_url,
+                login_url=login_url
+             ),
             name=URLNAMES.account_confirm_complete_urlname
         ),
 
