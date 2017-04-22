@@ -1,31 +1,25 @@
-{% extends "users/email/base.html" %}
+{% extends "emailing/base.html" %}
 {% load i18n %}
+{% load emailingtags %}
+
+{% block main %}
+
+    {% content_section %}
+        <h1>{% trans 'Welcome on board' %} {{ first_name }} {{ last_name }}</h1>
+        <br/>
+        <p>{% trans "Click the following link and set your password" %}</p>
+        <br/>
+        {% trans "Activate your account" as label %}
+        {% include "emailing/btn.html" with href=account_confirm_url label=label %}
+
+        <p>
+            {% blocktrans with username=user.get_username %}
+            Then, <a href="{{ login_url }}" >log in</a> with your username <b>{{ username }}</b>
+            {% endblocktrans %}
+        </p>
 
 
-{% block header %}
-
-{% endblock %}
-
-
-
-{% block content %}
-    <h1>{% blocktrans with first_name=user.first_name last_name=user.last_name %}Welcome on board {{ first_name }} {{ last_name }}{% endblocktrans %}</h1>
-
-    <h3>{% trans "Click the following link and set your password" %}</h3>
-
-    {% trans "Activate your account" as label %}
-    {% include "emailing/btn.html" with href=account_confirm_url label=label %}
-
-
-    <p>
-        {% blocktrans with username=user.get_username %}
-        Then, <a href="{{ login_url }}" >log in</a> with your username <b>{{ username }}</b>
-        {% endblocktrans %}
-    </p>
-
-
-
-
+    {% end_content_section %}
 
 
 {% endblock %}
