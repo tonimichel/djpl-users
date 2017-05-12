@@ -45,6 +45,8 @@ class AbstractUser(User):
         :param kw: dict
         :return: None
         """
+        self.clean()
+
         updated = self.id
 
         if not updated:
@@ -65,11 +67,6 @@ class AbstractUser(User):
                 # remeber: you now can login with your username (for backwards comp)
                 # or with your email (see auth_backend).
                 self.username = uuid.uuid4().hex[:30]
-
-        existing_users = User.objects.filter(email__iexact=self.email).exclude(id=self.id)
-        if existing_users.count() > 0:
-            # ensure that the username (self.email) is unique
-            raise IntegrityError('A user with this email (%s) already exists.' % self.email.lower())
 
         self.username = self.username.lower()
         super(AbstractUser, self).save(*args, **kw)
@@ -135,7 +132,7 @@ class AbstractUser(User):
             self._get_domain(),
             reverse(urlname, kwargs={
                 'uidb64': urlsafe_base64_encode(force_bytes(self.id)),
-                'token':  token
+                'token': token
             })
         )
 
@@ -155,5 +152,3 @@ class AbstractUser(User):
         :return: string
         """
         return '%s %s' % (self.first_name, self.last_name)
-
-
