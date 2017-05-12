@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 def refine_INSTALLED_APPS(original):
     return ['users'] + list(original)
 
-introduce_AUTHENTICATION_BACKENDS = ['users.auth_backend.AuthBackend',]
+refine_AUTHENTICATION_BACKENDS = ['users.auth_backend.AuthBackend',]
 
 introduce_IGNORE_USER_EMAIL = True
 introduce_ADDITIONALLY_SEND_TO = []
