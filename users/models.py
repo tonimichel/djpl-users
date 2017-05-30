@@ -84,10 +84,12 @@ class AbstractUser(User):
 
         if self.id:
             # exclude this instance in case of update.
-            qs = qs.exclude(email__iexact=self.email)
+            qs = qs.exclude(id=self.id)
+
+        print(qs, 92929292)
 
         if qs.count() > 0:
-            raise ValidationError(_('A user with this email (%s) already exists.' % self.email.lower()))
+            raise ValidationError(dict(email=_('A user with this email (%s) already exists.' % self.email.lower())))
 
     def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}, subject=None):
         """
