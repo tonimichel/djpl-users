@@ -5,7 +5,10 @@
 {% block main %}
 
     {% content_section %}
-        <h1>{% trans 'Welcome on board' %} {{ first_name }} {{ last_name }}</h1>
+
+
+    
+        <h1>{% trans 'Welcome on board' %} {{ user.first_name }} {{ user.last_name }}</h1>
         <br/>
         <p>{% trans "Click the following link and set your password:" %}</p>
 

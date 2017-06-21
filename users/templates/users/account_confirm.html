@@ -2,26 +2,24 @@
 {% load i18n %}
 {% load crispy_forms_tags %}
 
-{% block title %}{% trans "Login" %}{% endblock %}
+{% block title %}{% trans "Activate your account" %}{% endblock %}
 
 
 {% block content %}
     {% if validlink %}
-            <h3>{% trans "Activate your account" %}</h3>
-            {% block extra_content %}
+        <h3>{% trans "Activate your account" %}</h3>
+        {% block extra_content %}
+        {% endblock %}
 
-            {% endblock %}
-            <div class="alert alert-info">{% trans "Please enter the password twice so we can verify you typed it in correctly." %}</div>
-
-            <form action="" method="post">
-                {% csrf_token %}
-                {{ form|crispy }}
-                <button type="submit" class="btn btn-success"><i class="fa fa-angle-right"></i> {% trans "Set password" %}</button>
-            </form>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success"><i class="fa fa-angle-right"></i> {% trans "Set password" %}</button>
+        </form>
 
     {% else %}
-            <h1>{% trans 'Account activation unsuccessful' %}</h1>
-            <p>{% trans "The Account activation link was invalid, possibly because it has already been used." %}</p>
+        <h1>{% trans 'Account activation unsuccessful' %}</h1>
+        <p>{% trans "The Account activation link was invalid, possibly because it has already been used." %}</p>
     {% endif %}
 
 {% endblock %}

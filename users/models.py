@@ -86,8 +86,6 @@ class AbstractUser(User):
             # exclude this instance in case of update.
             qs = qs.exclude(id=self.id)
 
-        print(qs, 92929292)
-
         if qs.count() > 0:
             raise ValidationError(dict(email=_('A user with this email (%s) already exists.' % self.email.lower())))
 
