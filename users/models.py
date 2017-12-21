@@ -1,18 +1,18 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals, print_function
-from django.core.urlresolvers import reverse
-from django.db import IntegrityError
-from django.contrib.auth.models import User
-from django.utils.translation import ugettext as _
-from django.conf import settings
-from django.contrib.sites.models import Site
-from emailing.emails import HtmlEmail
-from django.contrib.auth.tokens import default_token_generator
-from django.core.exceptions import ValidationError
-from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+from __future__ import unicode_literals
+
 import uuid
+
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.sites.models import Site
+from django.core.exceptions import ValidationError
+from django.urls import reverse
+from django.utils.encoding import force_bytes
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.http import urlsafe_base64_encode
+from django.utils.translation import ugettext as _
+from emailing.emails import HtmlEmail
 
 
 @python_2_unicode_compatible
