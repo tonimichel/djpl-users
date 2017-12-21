@@ -1,12 +1,22 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.conf.urls import url
-from django.contrib.auth.views import password_change, password_change_done, password_reset_confirm, password_reset, password_reset_done, password_reset_complete, login, logout
-from .views import password_reset_confirm as account_confirm
-from users.forms import AuthenticationForm
-from django.views.generic import TemplateView
+
 from django.conf import settings
+from django.conf.urls import url
+from django.contrib.auth.views import (
+    password_change,
+    password_change_done,
+    password_reset_confirm,
+    password_reset,
+    password_reset_done,
+    password_reset_complete,
+    login,
+    logout
+)
+from django.views.generic import TemplateView
+from users.forms import AuthenticationForm
+
 from .forms import get_password_reset_form
+from .views import password_reset_confirm as account_confirm
 
 
 def _logout(request, **kws):
@@ -14,7 +24,6 @@ def _logout(request, **kws):
 
 
 def get_patterns(user_model):
-
     conf = user_model.appconfig
     URLNAMES = user_model.urlnames
 
@@ -65,7 +74,7 @@ def get_patterns(user_model):
         # password change done url; displays confirmation.
         url(
             r'^%spassword_change_done/$' % conf.URL_PREFIX,
-            password_change_done, {'template_name': 'users/password_change_done.html' },
+            password_change_done, {'template_name': 'users/password_change_done.html'},
             name=URLNAMES.password_change_done_urlname
         ),
 
@@ -89,7 +98,7 @@ def get_patterns(user_model):
             dict(
                 login_redirect_url=login_redirect_url,
                 login_url=login_url
-             ),
+            ),
             name=URLNAMES.account_confirm_complete_urlname
         ),
 
