@@ -89,7 +89,7 @@ class AbstractUser(User):
         if qs.count() > 0:
             raise ValidationError(dict(email=_('A user with this email (%s) already exists.' % self.email.lower())))
 
-    def confirm_account(self, template='users/email/account_confirmation.html', extra_context={}, subject=None):
+    def confirm_account(self, template='users/email/account_confirmation.html', extra_context=None, subject=None):
         """
         Sends out an account confirm email. Which contains a link to set the user's password.
         This method is also used for the password_reset mechanism.
@@ -98,6 +98,8 @@ class AbstractUser(User):
         :param subject:
         :return:
         """
+        if not extra_context:
+            extra_context = dict()
 
         conf = self.appconfig
         bcc = settings.ADDITIONALLY_SEND_TO
@@ -131,7 +133,7 @@ class AbstractUser(User):
         return '%s%s' % (
             self._get_domain(),
             reverse(urlname, kwargs={
-                'uidb64': urlsafe_base64_encode(force_bytes(self.id)),
+                'uidb64': str(urlsafe_base64_encode(force_bytes(self.id)), 'utf-8'),
                 'token': token
             })
         )

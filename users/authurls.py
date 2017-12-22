@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 from django.conf import settings
-from django.conf.urls import url
 from django.contrib.auth.views import (
     password_change,
     password_change_done,
@@ -12,6 +11,7 @@ from django.contrib.auth.views import (
     login,
     logout
 )
+from django.urls import re_path
 from django.views.generic import TemplateView
 from users.forms import AuthenticationForm
 
@@ -43,7 +43,7 @@ def get_patterns(user_model):
 
     # Registration urls
     return [
-        url(
+        re_path(
             r'^%s$' % login_url_for_pattern,
             login, {
                 'template_name': 'users/login.html',
@@ -57,13 +57,13 @@ def get_patterns(user_model):
             },
             name=URLNAMES.login_urlname
         ),
-        url(
+        re_path(
             r'^%slogout/$' % conf.URL_PREFIX,
             _logout, logout_view_args,
             name=URLNAMES.logout_urlname
         ),
         # change password url; for users to change its own password.
-        url(
+        re_path(
             r'^%spassword_change/$' % conf.URL_PREFIX,
             password_change, {
                 'template_name': 'users/password_change.html',
@@ -72,7 +72,7 @@ def get_patterns(user_model):
             name=URLNAMES.password_change_urlname
         ),
         # password change done url; displays confirmation.
-        url(
+        re_path(
             r'^%spassword_change_done/$' % conf.URL_PREFIX,
             password_change_done, {'template_name': 'users/password_change_done.html'},
             name=URLNAMES.password_change_done_urlname
@@ -80,7 +80,7 @@ def get_patterns(user_model):
 
         # account confirmation url, protected by secret token; displayed when the users clicked the account confirm url
         # in its account confirmation email
-        url(
+        re_path(
             r'^%saccount_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             account_confirm, {
                 'template_name': 'users/account_confirm.html',
@@ -90,7 +90,7 @@ def get_patterns(user_model):
             name=URLNAMES.account_confirm_urlname
         ),
         # indicated that the account was successfully confirmed
-        url(
+        re_path(
             r'^%saccount_confirm_complete/$' % conf.URL_PREFIX,
             TemplateView.as_view(
                 template_name='users/account_confirm_complete.html',
@@ -104,7 +104,7 @@ def get_patterns(user_model):
 
         # displays a form that takes a user's email address; when submitted, an email with a password reset url is sent
         # to that user
-        url(
+        re_path(
             r'^%spassword_reset/$' % conf.URL_PREFIX,
             password_reset, {
                 'template_name': 'users/password_reset.html',
@@ -115,7 +115,7 @@ def get_patterns(user_model):
             name=URLNAMES.password_reset_urlname
         ),
         # displays that the password change email has been sent.
-        url(
+        re_path(
             r'^%spassword_reset_done/$' % conf.URL_PREFIX,
             password_reset_done, {
                 'template_name': 'users/password_reset_done.html',
@@ -124,7 +124,7 @@ def get_patterns(user_model):
             name=URLNAMES.password_reset_done_urlname
         ),
         # displays the form where the user can choose its new password
-        url(
+        re_path(
             r'^%spassword_reset_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             password_reset_confirm, {
                 'template_name': 'users/password_reset_confirm.html',
@@ -133,7 +133,7 @@ def get_patterns(user_model):
             name=URLNAMES.password_reset_confirm_urlname
         ),
         # indicates that the user's password has been successfuly changed.
-        url(
+        re_path(
             r'^%spassword_reset_complete/$' % conf.URL_PREFIX,
             password_reset_complete, {
                 'template_name': 'users/password_reset_complete.html',
