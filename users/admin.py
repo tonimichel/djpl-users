@@ -1,40 +1,42 @@
-# -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
 from django.contrib import admin
+from django.contrib import messages
+from django.contrib.admin import actions
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy as __
 from users.forms import get_user_form
-from django.shortcuts import get_object_or_404
-from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
-from django.contrib.admin import actions
 
 
 class UserAdmin(admin.ModelAdmin):
-    
+
     def __init__(self, *args, **kwargs):
         super(UserAdmin, self).__init__(*args, **kwargs)
         self.form = get_user_form(self.model)
-    
+
     fieldsets = [
         (_('User data'), {
             'fields': ('first_name', 'last_name')
         }),
         (_('Credentials'), {
-            'fields': ('username', 'email',  'is_active', 'groups')
+            'fields': ('username', 'email', 'is_active', 'groups')
         }),
     ]
-   
+
     actions = ['send_account_confirmation', 'delete_selected']
     list_display = ['username', 'date_joined', 'is_active']
 
     def set_active(self, request, queryset):
         queryset.update(is_active=True)
+
     set_active.short_description = _('Mark selected users as active')
 
     def set_inactive(self, request, queryset):
         queryset.update(is_active=False)
+
     set_inactive.short_description = _('Mark selected users as inactive')
 
     def send_account_confirmation(self, request, queryset):
@@ -42,7 +44,7 @@ class UserAdmin(admin.ModelAdmin):
             user.confirm_account()
         if len(queryset):
             messages.success(request, _('Account confirmation email sent out for %s user(s)') % len(queryset))
-        
+
     send_account_confirmation.short_description = __('Send account confirmation email')
 
     def response_add(self, request, obj, post_url_continue=None):
@@ -64,7 +66,7 @@ class UserAdmin(admin.ModelAdmin):
             return
         else:
             obj.delete()
-            
+
     def delete_selected(self, request, queryset):
         """
         Remove the current user from the queryset selection and redirect to
@@ -79,7 +81,7 @@ class UserAdmin(admin.ModelAdmin):
             if self.get_auth_user(obj).id == me.id:
                 me_id = me.id
         queryset = queryset.exclude(id=me_id)
-        
+
         if len(queryset):
             if me_id is not None:
                 messages.error(request, _('You cannot delete yourself! Removed you from selection.'))
@@ -87,7 +89,7 @@ class UserAdmin(admin.ModelAdmin):
         else:
             messages.error(request, _('You cannot delete yourself!'))
             return None
-         
+
     delete_selected.short_description = "Delete selected"
 
     def get_auth_user(self, user_obj):
@@ -101,7 +103,7 @@ class UserAdmin(admin.ModelAdmin):
             return user_obj.user_ptr
         else:
             return user_obj
-        
+
     def delete_view(self, request, object_id, extra_context=None):
         """
         Ensure that a user can never delete himself.
@@ -121,7 +123,7 @@ class UserAdmin(admin.ModelAdmin):
 
 class UserSelfAdmin(admin.ModelAdmin):
     fields = ['first_name', 'last_name', 'email']
-    
+
     def __init__(self, *args, **kwargs):
         super(UserSelfAdmin, self).__init__(*args, **kwargs)
         self.form = get_user_form(self.model)
@@ -136,6 +138,3 @@ class UserSelfAdmin(admin.ModelAdmin):
 
     def changelist_view(self, request, extra_context=None):
         return HttpResponseRedirect(reverse('admin:%s_%s_change' % (self.model._meta.app_label, self.model.__name__.lower()), args=[request.user.id]))
-
-
-
