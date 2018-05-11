@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: djpl_users\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-21 22:09+0200\n"
+"POT-Creation-Date: 2018-05-11 17:02+0200\n"
 "PO-Revision-Date: 2017-06-21 22:12+0200\n"
 "Last-Translator: Toni Michel <toni@schnapptack.de>\n"
 "Language-Team: schnapptack <info@schnapptack.de>\n"
@@ -27,29 +27,29 @@ msgstr "Benutzerdaten"
 msgid "Credentials"
 msgstr "Anmeldedaten"
 
-#: users/admin.py:34
+#: users/admin.py:35
 msgid "Mark selected users as active"
 msgstr "Gewählte Nutzer auf inaktiv setzen"
 
-#: users/admin.py:38
+#: users/admin.py:40
 msgid "Mark selected users as inactive"
 msgstr "Gewählte Nutzer auf aktiv setzen"
 
-#: users/admin.py:44
+#: users/admin.py:46
 #, python-format
 msgid "Account confirmation email sent out for %s user(s)"
 msgstr "Aktivierungsemail per Email an Benutzer %s senden"
 
-#: users/admin.py:49
+#: users/admin.py:51
 #, python-format
 msgid "We just sent out a confirmation email to %s"
 msgstr "Aktivierungsemail per Email an Benutzer %s gesendet"
 
-#: users/admin.py:63 users/admin.py:88 users/admin.py:116
+#: users/admin.py:65 users/admin.py:90 users/admin.py:118
 msgid "You cannot delete yourself!"
 msgstr "Sie können Ihren eigenen Benutzer nicht löschen!"
 
-#: users/admin.py:85
+#: users/admin.py:87
 msgid "You cannot delete yourself! Removed you from selection."
 msgstr ""
 "Sie können Ihren eigenen Benutzer nicht löschen. Deshalb wurde Ihr Benutzer "
@@ -71,13 +71,13 @@ msgstr "Nachname"
 msgid "Groups"
 msgstr "Benutzergruppen"
 
-#: users/forms.py:74
+#: users/forms.py:77
 msgid "Please activate your account and set your password"
 msgstr ""
 "Nachdem der Zugang aktiviert ist und Sie Ihr Passwort vergeben haben, können "
 "Sie sich ins System einloggen. "
 
-#: users/forms.py:77 users/templates/users/password_reset.html:17
+#: users/forms.py:80 users/templates/users/password_reset.html:17
 msgid "Reset password"
 msgstr "Passwort zurücksetzen "
 
@@ -86,13 +86,13 @@ msgstr "Passwort zurücksetzen "
 msgid "A user with this email (%s) already exists."
 msgstr "Ein Benutzer mit dieser Email (%s) existiert bereits."
 
-#: users/settings.py:18
+#: users/settings.py:19
 msgid "Your Account"
 msgstr "Benutzerzugang bestätigen"
 
 #: users/templates/users/account_confirm.html:5
 #: users/templates/users/account_confirm.html:10
-#: users/templates/users/email/account_confirmation.html:15
+#: users/templates/users/email/account_confirmation.html:17
 msgid "Activate your account"
 msgstr "Benutzerzugang aktivieren"
 
@@ -133,21 +133,18 @@ msgid "Welcome on board"
 msgstr "Willkommen"
 
 #: users/templates/users/email/account_confirmation.html:13
-msgid "Click the following link and set your password:"
-msgstr "Benutzerzugang aktivieren und Passwort vergeben:"
+msgid "Username"
+msgstr "Benutzername"
 
-#: users/templates/users/email/account_confirmation.html:19
-#, python-format
-msgid ""
-"\n"
-"            Then, <a href=\"%(login_url)s\" >log in</a> with your username "
-"<b>%(username)s</b>\n"
-"            "
-msgstr ""
-"\n"
-"     <a href=\"%(login_url)s\" >Melden</a> Sie sich mit Ihrem Nutzernamen <b>"
-"%(username)s</b> an.\n"
-"       "
+#: users/templates/users/email/account_confirmation.html:14
+#, fuzzy
+#| msgid "Login URL:"
+msgid "Login URL"
+msgstr "Login"
+
+#: users/templates/users/email/account_confirmation.html:16
+msgid "Please click the following link to activate your account"
+msgstr "Bitte aktivieren Sie Ihren Zugang und setzen Sie Ihr Passwort"
 
 #: users/templates/users/email/password_reset.html:8
 #: users/templates/users/password_reset_confirm.html:11
@@ -198,7 +195,7 @@ msgstr "Anmelden"
 msgid "Reset my password"
 msgstr "Passwort zurücksetzen"
 
-#: users/templates/users/password_reset_confirm.html:24 users/views.py:89
+#: users/templates/users/password_reset_confirm.html:24 users/views.py:64
 msgid "Password reset unsuccessful"
 msgstr "Passwort zurücksetzen fehlgeschlagen."
 
@@ -222,9 +219,23 @@ msgstr ""
 "Ein Link zum Rücksetzen des Passworts wurde an Ihre Email-Adresse gesendet. "
 "Die Nachricht sollte gleich bei Ihnen eintreffen."
 
-#: users/views.py:76
+#: users/views.py:51
 msgid "Enter new password"
 msgstr "Neues Passwort eingeben"
+
+#~ msgid "Username:"
+#~ msgstr "Benutzername:"
+
+#~ msgid ""
+#~ "\n"
+#~ "            Then, <a href=\"%(login_url)s\" >log in</a> with your "
+#~ "username <b>%(username)s</b>\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "     <a href=\"%(login_url)s\" >Melden</a> Sie sich mit Ihrem Nutzernamen "
+#~ "<b>%(username)s</b> an.\n"
+#~ "       "
 
 #~ msgid ""
 #~ "Please enter the password twice so we can verify you typed it in "
@@ -292,9 +303,6 @@ msgstr "Neues Passwort eingeben"
 #~ msgstr[0] "Bitte korrigieren Sie den unten angegebenen Fehler."
 #~ msgstr[1] "Bitte korrigieren Sie die unten angegebenen Fehler."
 
-#~ msgid "Username:"
-#~ msgstr "Benutzername:"
-
 #~ msgid "Password:"
 #~ msgstr "Passwort:"
 
@@ -328,9 +336,6 @@ msgstr "Neues Passwort eingeben"
 
 #~ msgid "Password reset successful"
 #~ msgstr "Passwort erfolgreich zurückgesetzt"
-
-#~ msgid "Username"
-#~ msgstr "Benutzername"
 
 #~ msgid ""
 #~ "That e-mail address doesn't have an associated user account. Are you sure "
