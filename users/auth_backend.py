@@ -6,14 +6,12 @@ from django.contrib.auth.models import User
 
 class AuthBackend(ModelBackend):
 
-    def authenticate(self, username=None, password=None):
+    def authenticate(self, request, username=None, password=None):
         """
         Ensures case insensitive user names and checks against username and email in order
         allow email as login credential.
-        :param username:
-        :param password:
-        :return:
         """
+
         user = None
         try:
             user = User.objects.get(username__iexact=username)

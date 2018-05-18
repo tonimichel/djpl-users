@@ -78,7 +78,6 @@ class AbstractUser(User):
     def clean(self):
         """
         Ensure that this instance does not violate our email unique constraint.
-        :return:
         """
         qs = User.objects.filter(email__iexact=self.email)
 
@@ -93,10 +92,6 @@ class AbstractUser(User):
         """
         Sends out an account confirm email. Which contains a link to set the user's password.
         This method is also used for the password_reset mechanism.
-        :param template:
-        :param extra_context:
-        :param subject:
-        :return:
         """
         if not extra_context:
             extra_context = dict()

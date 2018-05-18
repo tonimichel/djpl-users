@@ -9,7 +9,7 @@ from django.contrib.auth.views import (
     password_reset_done,
     password_reset_complete,
     login,
-    logout
+    LogoutView,
 )
 from django.urls import re_path
 from django.views.generic import TemplateView
@@ -17,10 +17,6 @@ from users.forms import AuthenticationForm
 
 from .forms import get_password_reset_form
 from .views import password_reset_confirm as account_confirm
-
-
-def _logout(request, **kws):
-    return logout(request, **kws)
 
 
 def get_patterns(user_model):
@@ -41,6 +37,8 @@ def get_patterns(user_model):
     logout_view_args = dict(template_name='users/logged_out.html')
     logout_view_args['next_page'] = settings.LOGOUT_REDIRECT_URL
 
+
+
     # Registration urls
     return [
         re_path(
@@ -59,7 +57,7 @@ def get_patterns(user_model):
         ),
         re_path(
             r'^%slogout/$' % conf.URL_PREFIX,
-            _logout, logout_view_args,
+            LogoutView.as_view(**logout_view_args),
             name=URLNAMES.logout_urlname
         ),
         # change password url; for users to change its own password.
@@ -82,11 +80,12 @@ def get_patterns(user_model):
         # in its account confirmation email
         re_path(
             r'^%saccount_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
-            account_confirm, {
-                'template_name': 'users/account_confirm.html',
+            account_confirm, dict(
+                template_name='users/account_confirm.html',
                 # after the account confirmation, the user gets redirected to the url defined in the settings
-                'post_reset_redirect': settings.ACCOUNT_CONFIRM_REDIRECT_URL or '/%saccount_confirm_complete/' % conf.URL_PREFIX,
-            },
+                post_reset_redirect=settings.ACCOUNT_CONFIRM_REDIRECT_URL or '/%saccount_confirm_complete/' % conf.URL_PREFIX,
+                user_model=user_model
+            ),
             name=URLNAMES.account_confirm_urlname
         ),
         # indicated that the account was successfully confirmed
@@ -97,7 +96,8 @@ def get_patterns(user_model):
             ),
             dict(
                 login_redirect_url=login_redirect_url,
-                login_url=login_url
+                login_url=login_url,
+                user_model=user_model
             ),
             name=URLNAMES.account_confirm_complete_urlname
         ),
