@@ -39,11 +39,6 @@ class AbstractUser(User):
     def save(self, send_confirmation=True, password=None, *args, **kw):
         """
         Saves the user instance and sends out a confirmation email on create.
-        :param send_confirmation: boolean
-        :param password: string
-        :param args: list
-        :param kw: dict
-        :return: None
         """
         self.clean()
 
