@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import ugettext as _
+from django.db import models
 from emailing.emails import HtmlEmail
 
 
@@ -21,8 +22,10 @@ class AbstractUser(User):
     Defines an abstract user model which can be inherited and refined by a concrete application's user
     model.
     """
+    activation_timestamp = models.DateTimeField(null=True, blank=True)
 
     USERNAME_FIELD = 'email'
+
 
     def __init__(self, *args, **kwargs):
         super(AbstractUser, self).__init__(*args, **kwargs)
@@ -144,3 +147,4 @@ class AbstractUser(User):
         :return: string
         """
         return '%s %s' % (self.first_name, self.last_name)
+

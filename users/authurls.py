@@ -16,6 +16,7 @@ from django.views.generic import TemplateView
 from users.forms import AuthenticationForm
 
 from .forms import get_password_reset_form
+from . import forms as users_forms
 from .views import password_reset_confirm as account_confirm
 
 
@@ -82,7 +83,7 @@ def get_patterns(user_model):
             r'^%saccount_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$' % conf.URL_PREFIX,
             account_confirm, dict(
                 template_name='users/account_confirm.html',
-                # after the account confirmation, the user gets redirected to the url defined in the settings
+                set_password_form=users_forms.AccountActivationPasswordForm,
                 post_reset_redirect=settings.ACCOUNT_CONFIRM_REDIRECT_URL or '/%saccount_confirm_complete/' % conf.URL_PREFIX,
                 user_model=user_model
             ),

@@ -8,7 +8,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.forms import  SetPasswordForm
+from django.utils import timezone
 
 class AuthenticationForm(DjangoAuthForm):
     """
@@ -89,3 +90,13 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 return self.cleaned_data['email']
 
     return CustomPasswordResetForm
+
+
+
+class AccountActivationPasswordForm(SetPasswordForm):
+
+    def save(self, *args, **kwargs):
+        self.user.activation_timestamp = timezone.now()
+        return super().save(*args, **kwargs)
+
+
