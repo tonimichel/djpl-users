@@ -81,7 +81,7 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
 class AccountActivationPasswordForm(SetPasswordForm):
 
     def save(self, *args, **kwargs):
-        if self.id is None:
+        if self.user.activation_timestamp is None:
             # only set the activation ts when the user is created!
             self.user.activation_timestamp = timezone.now()
         return super().save(*args, **kwargs)
