@@ -3,16 +3,14 @@
 
 def register(modelclass, config):
     from users import authurls
-    from django.contrib.sites.models import Site
-    from django.conf import settings
-    app_label = config['APP_LABEL']
+    app_label = 'users'
     
     class __urlnames__(object):
         login_urlname = '%s-login' % app_label
         logout_urlname = '%s-logout' % app_label
         password_change_urlname = '%s-password_change' % app_label
         password_change_done_urlname = '%s-password_change_done' % app_label
-        account_confirm_urlname = '%s-account_confirmation' % app_label
+        account_confirm_urlname = '%s-account_confirm' % app_label
         account_confirm_complete_urlname = '%s-account_confirm_complete' % app_label
         password_reset_urlname = '%s-password_reset' % app_label
         password_reset_done_urlname = '%s-password_reset_done' % app_label

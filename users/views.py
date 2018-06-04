@@ -1,9 +1,5 @@
 from __future__ import unicode_literals
 
-# Avoid shadowing the login() and logout() views below.
-from django.contrib.auth import (
-    get_user_model
-)
 from django.contrib.auth import login
 from django.contrib.auth.forms import (
     SetPasswordForm,
@@ -35,7 +31,7 @@ def password_reset_confirm(request, uidb64=None, token=None,
     View that checks the hash in a password reset link and presents a
     form for entering a new password.
     """
-    UserModel = user_model#get_user_model()
+    UserModel = user_model  # get_user_model()
     assert uidb64 is not None and token is not None  # checked by URLconf
     if post_reset_redirect is None:
         post_reset_redirect = reverse('password_reset_complete')

@@ -14,6 +14,4 @@ introduce_ADDITIONALLY_SEND_TO = []
 introduce_LOGIN_URL = '/login/'
 introduce_LOGIN_REDIRECT_URL = '/'
 introduce_LOGOUT_REDIRECT_URL = '/login/'
-introduce_ACCOUNT_CONFIRM_REDIRECT_URL = None
-
 introduce_ACCOUNT_CONFIRMATION_EMAIL_SUBJECT = _('Your Account')
