@@ -61,7 +61,7 @@ def get_password_reset_form(password_reset_confirm_urlname, ConcreteUserModel):
                 # a password marked as unusable
                 if not user.has_usable_password():
                     # send account activation email as the user obviously did not confirm his account yet
-                    user.confirm_account(subject=_('Please activate your account and set your password'))
+                    user.confirm_account(subject=_('Reset password'))
                 else:
                     # send password reset
                     user.confirm_account(template=email_template_name, subject=_('Reset password'))
