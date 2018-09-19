@@ -4,16 +4,15 @@ import uuid
 
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
+from django.db import models
 from django.urls import reverse
 from django.utils.encoding import force_bytes
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import ugettext as _
-from django.db import models
-from emailing.emails import HtmlEmail
+from django_q.tasks import async
 
 
 @python_2_unicode_compatible
@@ -25,7 +24,6 @@ class AbstractUser(User):
     activation_timestamp = models.DateTimeField(null=True, blank=True)
 
     USERNAME_FIELD = 'email'
-
 
     def __init__(self, *args, **kwargs):
         super(AbstractUser, self).__init__(*args, **kwargs)
@@ -91,36 +89,7 @@ class AbstractUser(User):
         Sends out an account confirm email. Which contains a link to set the user's password.
         This method is also used for the password_reset mechanism.
         """
-        if not extra_context:
-            extra_context = dict()
-
-        conf = self.appconfig
-        bcc = settings.ADDITIONALLY_SEND_TO
-        subject = subject or conf.CONFIRM_EMAIL_SUBJECT
-
-        if settings.IGNORE_USER_EMAIL:
-            recipients = bcc
-            bcc = None
-        else:
-            recipients = [self.email]
-
-        token = default_token_generator.make_token(self)
-        context = {
-            'user': self,
-            'password_reset_confirm_url': self.get_confirm_link(self.urlnames.password_reset_confirm_urlname, token),
-            'account_confirm_url': self.get_confirm_link(self.urlnames.account_confirm_urlname, token),
-            'login_url': self._get_domain() + settings.LOGIN_URL
-        }
-        context.update(extra_context)
-        email = HtmlEmail(
-            from_email=conf.FROM_EMAIL,
-            to=recipients,
-            bcc=bcc,
-            subject=subject,
-            template=template,
-            context=context
-        )
-        email.send()
+        async('users.schedule.send_confirmation_mail', self, template, extra_context, subject)
 
     def get_confirm_link(self, urlname, token):
         return '%s%s' % (
@@ -147,4 +116,3 @@ class AbstractUser(User):
         :return: string
         """
         return '%s %s' % (self.first_name, self.last_name)
-

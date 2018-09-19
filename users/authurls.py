@@ -2,20 +2,17 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.contrib.auth.views import (
-    password_reset_confirm,
-    password_reset,
-    password_reset_done,
-    password_reset_complete,
-    login,
+    PasswordResetConfirmView,
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetCompleteView,
+    LoginView,
     LogoutView,
 )
-from django.urls import re_path, path
+from django.urls import re_path, path, reverse_lazy
 from django.views.generic import TemplateView
-from users.forms import AuthenticationForm
-
-from .forms import get_password_reset_form
-from . import forms as users_forms
-from .views import password_reset_confirm as account_confirm
+from users.forms import AuthenticationForm, AccountActivationPasswordForm, get_password_reset_form
+from users.views import password_reset_confirm as account_confirm
 
 
 def get_patterns(user_model):
@@ -23,17 +20,16 @@ def get_patterns(user_model):
     return [
         path(
             settings.LOGIN_URL.lstrip('/'),
-            login,
-            dict(
+            LoginView.as_view(**dict(
                 template_name='users/login.html',
                 authentication_form=AuthenticationForm,
                 extra_context=dict(
-                    password_reset_url='/users/password_reset/',
+                    password_reset_url=reverse_lazy('users-password_reset'),
                     login_url=settings.LOGIN_URL,
                     next=settings.LOGIN_REDIRECT_URL,
                     login_view=True
                 )
-            ),
+            )),
             name='users-login'
         ),
         path(
@@ -50,7 +46,7 @@ def get_patterns(user_model):
             r'^users/account_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
             account_confirm, dict(
                 template_name='users/account_confirm.html',
-                set_password_form=users_forms.AccountActivationPasswordForm,
+                set_password_form=AccountActivationPasswordForm,
                 post_reset_redirect='/users/account_confirm_complete/',
                 user_model=user_model
             ),
@@ -74,39 +70,39 @@ def get_patterns(user_model):
         # to that user
         path(
             'users/password_reset/',
-            password_reset, dict(
+            PasswordResetView.as_view(**dict(
                 template_name='users/password_reset.html',
-                post_reset_redirect='/users/password_reset_done/',
+                success_url=reverse_lazy('users-password-reset-done'),
                 email_template_name='users/email/password_reset.html',
-                password_reset_form=get_password_reset_form('users-password_reset_confirm', user_model),
-            ),
+                form_class=get_password_reset_form('users-password_reset_confirm', user_model),
+            )),
             name='users-password_reset'
         ),
         # displays that the password change email has been sent.
         path(
             'users/password_reset_done/',
-            password_reset_done, dict(
+            PasswordResetDoneView.as_view(**dict(
                 template_name='users/password_reset_done.html',
                 extra_context=dict(login_url=settings.LOGIN_URL),
-            ),
+            )),
             name='users-password-reset-done'
         ),
         # displays the form where the user can choose its new password
         re_path(
             r'^users/password_reset_confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-            password_reset_confirm, dict(
+            PasswordResetConfirmView.as_view(**dict(
                 template_name='users/password_reset_confirm.html',
-                post_reset_redirect='/users/password_reset_complete/',
-            ),
+                success_url=reverse_lazy('user-password_reset_complete'),
+            )),
             name='users-password_reset_confirm'
         ),
         # indicates that the user's password has been successfully changed.
         path(
             'users/password_reset_complete/',
-            password_reset_complete, dict(
+            PasswordResetCompleteView.as_view(**dict(
                 template_name='users/password_reset_complete.html',
                 extra_context=dict(login_url=settings.LOGIN_URL)
-            ),
+            )),
             name='user-password_reset_complete'
         )
     ]
