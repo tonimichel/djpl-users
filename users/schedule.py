@@ -2,10 +2,13 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.contrib.auth.tokens import default_token_generator
+from django.utils import translation
 from emailing.emails import HtmlEmail
 
 
 def send_confirmation_mail(user, template, extra_context, subject):
+    translation.activate(settings.LANGUAGE_CODE)
+
     if not extra_context:
         extra_context = dict()
 
