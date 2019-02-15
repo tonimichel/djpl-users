@@ -12,7 +12,7 @@ from django.utils.encoding import force_bytes
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import ugettext as _
-from django_q.tasks import async
+from django_q.tasks import async_task
 
 
 @python_2_unicode_compatible
@@ -89,7 +89,7 @@ class AbstractUser(User):
         Sends out an account confirm email. Which contains a link to set the user's password.
         This method is also used for the password_reset mechanism.
         """
-        async('users.schedule.send_confirmation_mail', self, template, extra_context, subject)
+        async_task('users.schedule.send_confirmation_mail', self, template, extra_context, subject)
 
     def get_confirm_link(self, urlname, token):
         return '%s%s' % (
